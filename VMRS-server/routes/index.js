@@ -31,7 +31,7 @@ router.get("/test2", async (ctx, next) => {
 	// 		},
 	// 	},
 	// };
-	ctx.request.body.movieID = 10001411;
+	ctx.request.body.movieID = 24751851;
 	await MovieInfoController.detail(ctx);
 	// ctx = ctx2;
 });
