@@ -1,6 +1,7 @@
 const Router = require("koa-router");
 
 const TestController = require("../controllers/test");
+const MovieInfoController = require("../controllers/MovieInfo");
 
 const router = new Router({
 	prefix: "/api",
@@ -22,21 +23,33 @@ router.get("/json", async (ctx, next) => {
 		data: "data!",
 	};
 });
+router.get("/test2", async (ctx, next) => {
+	// let ctx2 = {
+	// 	request: {
+	// 		body: {
+	// 			movieID: "10001411",
+	// 		},
+	// 	},
+	// };
+	ctx.request.body.movieID = 10001411;
+	await MovieInfoController.detail(ctx);
+	// ctx = ctx2;
+});
 
 // 测试数据库
 
-let ctx = {
-	request: {
-		body: {
-			// id: 1,
-			title: "teesttt",
-			author: "Congb19",
-			content: "asdasd",
-			category: "ghssss",
-		},
-	},
-};
-TestController.create(ctx);
+// let ctx = {
+// 	request: {
+// 		body: {
+// 			// id: 1,
+// 			title: "teesttt",
+// 			author: "Congb19",
+// 			content: "asdasd",
+// 			category: "ghssss",
+// 		},
+// 	},
+// };
+// TestController.create(ctx);
 
 console.log("okokokok");
 
