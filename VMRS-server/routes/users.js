@@ -1,5 +1,7 @@
 const router = require("koa-router")();
 
+const UserController = require("../controllers/User");
+
 router.prefix("/api/users");
 
 router.get("/", function (ctx, next) {
@@ -9,18 +11,10 @@ router.get("/", function (ctx, next) {
 router.get("/bar", function (ctx, next) {
 	ctx.body = "this is a users/bar response";
 });
-
-router.post("/signup", function (ctx, next) {
+router.post("/signup", async (ctx, next) => {
 	const req = ctx.request.body;
-	console.log(req);
-	let res = `signup ok`;
-	ctx.body = {
-		title: `signup`,
-		code: 200,
-		data: {
-			res,
-		},
-	};
+	console.log("注册中，", req);
+	await UserController.create(ctx);
 });
 
 module.exports = router;

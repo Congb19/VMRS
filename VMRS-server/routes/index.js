@@ -2,6 +2,7 @@ const Router = require("koa-router");
 
 const TestController = require("../controllers/test");
 const MovieInfoController = require("../controllers/MovieInfo");
+const UserController = require("../controllers/User");
 
 const router = new Router({
 	prefix: "/api",
@@ -51,6 +52,15 @@ router.get("/test2", async (ctx, next) => {
 // };
 // TestController.create(ctx);
 
-console.log("okokokok");
+// let ctx = {
+// 	request: {
+// 		body: {
+// 			// id: 1,
+// 			username: "congb191",
+// 			password: "QWER1234",
+// 		},
+// 	},
+// };
+// UserController.create(ctx)
 
 module.exports = router;

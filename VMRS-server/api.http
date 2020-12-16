@@ -1,0 +1,11 @@
+
+# test
+# http://localhost:8002/api/test2
+
+POST http://localhost:8002/api/users/signup
+content-type: application/json;charset=UTF-8
+
+{
+  "username": "橘子3",
+  "password": "很好吃"
+}
