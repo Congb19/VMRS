@@ -1,4 +1,6 @@
 const UserModel = require("../modules/User");
+const jwt = require("jsonwebtoken");
+const config = require("../config/jwt");
 
 class UserController {
 	static async create(ctx) {
@@ -7,15 +9,24 @@ class UserController {
 		if (req.username && req.password) {
 			try {
 				const ret = await UserModel.createUser(req);
-				// const data = await UserModel.getUserDetail(ret.userId);
-				const data = { a: "ok" };
+				const data = await UserModel.getUserDetail(ret.userid);
+
+				const token = jwt.sign(
+					{
+						userid: data.userid,
+						username: data.username,
+					},
+					config.jwtSecret
+				);
+
 				ctx.response.status = 200;
 				ctx.body = {
 					code: 200,
 					msg: "用户注册成功",
 					data,
+					token,
 				};
-				console.log("注册成功");
+				console.log("注册成功，data: ", data, "token: ", token);
 			} catch (err) {
 				ctx.response.status = 412;
 				ctx.body = {

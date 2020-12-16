@@ -1,12 +1,12 @@
 
 # test
-GET http://localhost:8002/api/test2
+# GET http://localhost:8002/api/test2
 
 # 注册
 POST http://localhost:8002/api/users/signup
 content-type: application/json;charset=UTF-8
 
 {
-  "username": "橘子4",
+  "username": "橘子6",
   "password": "很好吃1"
 }
