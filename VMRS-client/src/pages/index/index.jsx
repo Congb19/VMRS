@@ -28,7 +28,7 @@ export default class Index extends Component {
     return (
       <View className='index'>
         <Text>VMRS-client</Text>
-        <AtButton type='primary' onClick={this.go}>按钮文案</AtButton>
+        <AtButton type='primary' onClick={this.go}>测试按钮</AtButton>
       </View>
     )
   }
