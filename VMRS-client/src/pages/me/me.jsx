@@ -31,7 +31,7 @@ export default class Me extends Component {
   }
   signup() {
     let data = {
-      username: '测试12',
+      username: '测试123',
       password: '测试222'
     };
     (async () => {
