@@ -15,6 +15,10 @@ export default class Index extends Component {
   componentDidShow () { }
 
   componentDidHide() { }
+
+  onReady() {
+    console.log("onready");
+  }
   
   go() {
     console.log(123);
