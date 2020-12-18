@@ -1,35 +1,57 @@
 import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
-import { AtButton, AtTag, AtMessage } from 'taro-ui'
+import { AtForm, AtInput,AtButton, AtTag, AtMessage } from 'taro-ui'
 
 import { getDate, signin, signup } from "../../ajax";
 
 import './me.scss'
 
 export default class Me extends Component {
+  constructor () {
+    super(...arguments);
+    this.state = {
+      isLoggedIn: false,
+      username: ''
+    }
+  }
+  handleUsernameChange (username) {
+    this.setState({
+      username
+    })
+    console.log(this.state);
+  }
+  handlePasswordChange (password) {
+    this.setState({
+      password
+    })
+    console.log(this.state);
+  }
+  handleReset() {
 
-  componentWillMount () { }
+  }
 
-  componentDidMount() {
+  onReady() {
+    console.log("onready me");
     (async () => {
 			let res = await getDate();
 			console.log("rqDate", res);
     })();
   }
 
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide() { }
-
-  onReady() {
-    console.log("onready me");
+  signIn() {
+    console.log("登录ing");
+    (async () => {
+      try {
+        let res = await signup(this.state);
+        this.setState({
+          isLoggedIn: true,
+        })
+      } catch (err) {
+			  console.log("errrrrr", err);
+      }
+    })();
   }
-  signin() {
-
-  }
-  signup() {
+  signUp() {
     let data = {
       username: '测试123',
       password: '测试222'
@@ -39,35 +61,62 @@ export default class Me extends Component {
 			console.log("注册ing", res);
     })();
   }
-  logout() {
+  signOut() {
 
   }
 
-  render () {
-    return (
-      <View className='me'>
-        <AtMessage />
-        <View className='me-banner'></View>
-        <View className='me-profile'>
-          <View className='me-profile__avatar'></View>
-          <View className='me-profile__nickname'>Congb19</View>
-          <View className='me-profile__userid'>通行证ID：7777</View>
-          <View className='me-profile__tags'>
-            <AtTag active>原神 Lv1</AtTag>
-            <AtTag active>崩坏3 Lv1</AtTag>
-          </View>
-          <View className='me-profile__data'>
-            <Text className='me-profile__data--followers'>{ 1 } 粉丝</Text>
-            <Text className='me-profile__data--following'>{ 1 } 关注</Text>
-            <Text className='me-profile__data--likes'>{ 1 } 获赞</Text>
-          </View>
+  UserPage() {
+    return <View className='me'>
+      <AtMessage />
+      <View className='me-banner'></View>
+      <View className='me-profile'>
+        <View className='me-profile__avatar'></View>
+        <View className='me-profile__nickname'>Congb19</View>
+        <View className='me-profile__userid'>通行证ID：7777</View>
+        <View className='me-profile__tags'>
+          <AtTag active>原神 Lv1</AtTag>
+          <AtTag active>崩坏3 Lv1</AtTag>
         </View>
-        <View>
-          <AtButton onClick={this.signup}>注册</AtButton>
-          <AtButton onClick={this.signin}>登录</AtButton>
-          <AtButton onClick={this.logout}>退出</AtButton>
+        <View className='me-profile__data'>
+          <Text className='me-profile__data--followers'>{ 1 } 粉丝</Text>
+          <Text className='me-profile__data--following'>{ 1 } 关注</Text>
+          <Text className='me-profile__data--likes'>{ 1 } 获赞</Text>
         </View>
       </View>
-    )
+    </View>
+  }
+  GuestPage() {
+    return <View>
+      <AtMessage />
+      <AtForm
+        onSubmit={this.signIn.bind(this)}
+        onReset={this.handleReset.bind(this)}
+      >
+        <AtInput 
+          name='username' 
+          title='用户名' 
+          type='text' 
+          placeholder='用户名' 
+          value={this.state.username} 
+          onChange={this.handleUsernameChange.bind(this)} 
+        />
+        <AtInput 
+          name='password' 
+          title='密码' 
+          type='text' 
+          placeholder='密码' 
+          value={this.state.password} 
+          onChange={this.handlePasswordChange.bind(this)} 
+        />
+        <AtButton formType='submit'>提交</AtButton>
+        <AtButton formType='reset'>重置</AtButton>
+      </AtForm>
+    </View>
+  }
+
+
+  render() {
+    if (this.state.isLoggedIn) return this.UserPage();
+    else return this.GuestPage();
   }
 }

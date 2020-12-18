@@ -15,6 +15,7 @@ class UserModel {
 			password: data.password,
 		});
 	}
+
 	static async getUserDetail(userid) {
 		console.log("现在在modules。get");
 		return await User.findOne({
