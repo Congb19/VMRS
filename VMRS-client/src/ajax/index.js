@@ -111,6 +111,10 @@ export const signup = async (data) => {
 export const signin = async (data) => {
   const res = await request(`/users/signin`, data, "POST");
   console.log("signin, res: ", res);
-  const token = res.token;
-  localStorage.setItem("token", token);
+  if (res) {
+    const token = res.token;
+    localStorage.setItem("token", token);
+    console.log(jwtDecode(token));
+  } else {
+  }
 };

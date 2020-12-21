@@ -10,8 +10,9 @@ export default class Me extends Component {
   constructor () {
     super(...arguments);
     this.state = {
-      isLoggedIn: false,
-      username: ''
+      isLoggedIn: true,
+      username: '',
+      password: ''
     }
   }
   handleUsernameChange (username) {
@@ -42,10 +43,12 @@ export default class Me extends Component {
     console.log("登录ing");
     (async () => {
       try {
-        let res = await signup(this.state);
-        this.setState({
-          isLoggedIn: true,
-        })
+        let res = await signin(this.state);
+        if (res?.code == 200) {
+          this.setState({
+            isLoggedIn: true,
+          })
+        }
       } catch (err) {
 			  console.log("errrrrr", err);
       }
@@ -108,9 +111,10 @@ export default class Me extends Component {
           value={this.state.password} 
           onChange={this.handlePasswordChange.bind(this)} 
         />
-        <AtButton formType='submit'>提交</AtButton>
+        <AtButton formType='submit'>登录</AtButton>
         <AtButton formType='reset'>重置</AtButton>
       </AtForm>
+      {/* TODO: 一个模态框，注册页面 */}
     </View>
   }
 
