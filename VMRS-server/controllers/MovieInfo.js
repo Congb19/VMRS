@@ -1,4 +1,4 @@
-const MovieInfoModel = require("../modules/MovieInfo");
+const { MovieInfoModel } = require("../modules/MovieInfo");
 
 class MovieInfoController {
 	static async detail(ctx) {

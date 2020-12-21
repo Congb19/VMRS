@@ -1,5 +1,7 @@
 const Router = require("koa-router");
 
+const UserController = require("../controllers/User");
+const UserProfileController = require("../controllers/UserProfile");
 const MovieInfoController = require("../controllers/MovieInfo");
 
 const router = new Router({

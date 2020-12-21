@@ -3,6 +3,7 @@ const { DataTypes, Model } = require("sequelize");
 const moment = require("moment");
 const sequelize = db.sequelize;
 // const User = sequelize.import("../schemas/User");
+const { UserProfile, UserProfileModel } = require("./UserProfile");
 class User extends Model {}
 User.init(
 	{
@@ -46,19 +47,20 @@ User.init(
 		tableName: "User",
 	}
 );
-// 自动同步表
-const fsync = async () => {
-	await User.sync({ force: false, alter: true });
-	console.log("User表结构同步成功");
-};
-fsync();
+// User.hasOne(UserProfile);
 class UserModel {
 	static async createUser(data) {
 		console.log("现在在modules。create");
-		return await User.create({
+		//创建一下账户信息、个人信息。
+		const res = await User.create({
 			username: data.username,
 			password: data.password,
 		});
+		await UserProfile.create({
+			userid: res.userid,
+			nickname: "旅行者",
+		});
+		return res;
 	}
 
 	static async getUserDetail(userid) {
@@ -71,4 +73,7 @@ class UserModel {
 	}
 }
 
-module.exports = UserModel;
+module.exports = {
+	User,
+	UserModel,
+};

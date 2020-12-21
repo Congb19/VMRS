@@ -22,7 +22,7 @@ MovieInfo.init(
 			field: "director",
 		},
 		actor: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 			field: "actor",
 		},
@@ -60,12 +60,11 @@ MovieInfo.init(
 	}
 );
 // 自动同步表
-const fsync = async () => {
+(async () => {
 	// await MovieInfo.sync({ force: false });
-	await MovieInfo.sync({ force: false, alter: true });
-	console.log("Info表结构同步成功");
-};
-fsync();
+	await sequelize.sync({ force: false, alter: true });
+	console.log("全部表结构同步成功");
+})();
 class MovieInfoModel {
 	static async getMovieInfoDetail(movieID) {
 		return await MovieInfo.findOne({
@@ -76,4 +75,7 @@ class MovieInfoModel {
 	}
 }
 
-module.exports = MovieInfoModel;
+module.exports = {
+	MovieInfo,
+	MovieInfoModel,
+};
