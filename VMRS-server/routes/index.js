@@ -1,8 +1,6 @@
 const Router = require("koa-router");
 
-const TestController = require("../controllers/test");
 const MovieInfoController = require("../controllers/MovieInfo");
-const UserController = require("../controllers/User");
 
 const router = new Router({
 	prefix: "/api",

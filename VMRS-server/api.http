@@ -7,6 +7,6 @@ POST http://localhost:8002/api/users/signup
 content-type: application/json;charset=UTF-8
 
 {
-  "username": "橘子6",
+  "username": "橘子4447",
   "password": "很好吃1"
 }
