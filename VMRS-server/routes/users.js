@@ -17,5 +17,10 @@ router.post("/signup", async (ctx, next) => {
 	console.log("注册中，", req);
 	await UserController.create(ctx);
 });
+router.post("/signin", async (ctx, next) => {
+	const req = ctx.request.body;
+	console.log("登录中，", req);
+	await UserController.signin(ctx);
+});
 
 module.exports = router;

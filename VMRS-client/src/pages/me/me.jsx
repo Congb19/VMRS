@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { View, Text } from '@tarojs/components'
 import { AtForm, AtInput,AtButton, AtTag, AtMessage } from 'taro-ui'
 
-import { getDate, signin, signup } from "../../ajax";
+import { getDate } from "../../ajax";
+import { signin, signup } from "../../ajax/authActions";
 
 import './me.scss'
 
@@ -10,7 +11,7 @@ export default class Me extends Component {
   constructor () {
     super(...arguments);
     this.state = {
-      isLoggedIn: true,
+      isLoggedIn: false,
       username: '',
       password: ''
     }
@@ -44,10 +45,12 @@ export default class Me extends Component {
     (async () => {
       try {
         let res = await signin(this.state);
+        console.log("res: ", res);
         if (res?.code == 200) {
           this.setState({
             isLoggedIn: true,
           })
+          
         }
       } catch (err) {
 			  console.log("errrrrr", err);
@@ -55,10 +58,6 @@ export default class Me extends Component {
     })();
   }
   signUp() {
-    let data = {
-      username: '测试123',
-      password: '测试222'
-    };
     (async () => {
 			let res = await signup(data);
 			console.log("注册ing", res);
