@@ -2,13 +2,13 @@
 # test
 # GET http://localhost:8002/api/test2
 
-GET http://www.congb19.top/vmrs/api/test2
+# GET http://www.congb19.top/vmrs/api/test2
 
 # 注册
-# POST http://localhost:8002/api/users/signup
-# content-type: application/json;charset=UTF-8
+POST http://www.congb19.top/vmrs/api/users/signup
+content-type: application/json;charset=UTF-8
 
-# {
-#   "username": "橘子2a21111222 ",
-#   "password": "很好吃221"
-# }
+{
+  "username": "qwe",
+  "password": "asd"
+}
