@@ -4,10 +4,14 @@ import { Provider } from "react-redux";
 
 import configStore from "./store";
 
+import setAuthorizationToken from "./utils/setAuthorizationToken"
+
 import "taro-ui/dist/style/index.scss";
 import "./app.scss";
 
 const store = configStore();
+
+setAuthorizationToken(localStorage.token);
 
 class App extends Component {
   componentDidMount() {}

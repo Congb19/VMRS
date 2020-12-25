@@ -61,7 +61,7 @@ class UserModel {
 		});
 		await UserProfile.create({
 			userid: res.userid,
-			nickname: "旅行者",
+			nickname: "NewUser",
 		});
 		return res;
 	}
