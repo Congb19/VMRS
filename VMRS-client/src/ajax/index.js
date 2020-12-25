@@ -2,8 +2,8 @@ import axios from "axios";
 import Taro from "@tarojs/taro";
 import jwtDecode from "jwt-decode";
 // axios.defaults.withCredentials = true; // 跨域带cookie
-axios.defaults.baseURL = "http://www.congb19.top/vmrs/api";
-// axios.defaults.baseURL = "http://localhost:8002/api";
+// axios.defaults.baseURL = "http://www.congb19.top/vmrs/api";
+axios.defaults.baseURL = "http://localhost:8002/api";
 
 // export const gainError = (status) => {
 //   let errMsg = "";
