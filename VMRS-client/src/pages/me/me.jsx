@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Taro from "@tarojs/taro";
 import { View, Text } from '@tarojs/components'
 import { AtForm, AtInput,AtButton, AtTag, AtMessage } from 'taro-ui'
 
@@ -50,7 +51,10 @@ export default class Me extends Component {
           this.setState({
             isLoggedIn: true,
           })
-          
+          Taro.atMessage({
+            message:"登录成功",
+            type: "success",
+          });
         }
       } catch (err) {
 			  console.log("errrrrr", err);
@@ -113,7 +117,6 @@ export default class Me extends Component {
         <AtButton formType='submit'>登录</AtButton>
         <AtButton formType='reset'>重置</AtButton>
       </AtForm>
-      {/* TODO: 一个模态框，注册页面 */}
     </View>
   }
 
