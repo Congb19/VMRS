@@ -15,7 +15,10 @@ import "./me.scss";
   }),
   (dispatch) => ({
     signin(data) {
-      signin(data).then((res) => dispatch(res));
+      signin(data).then((res) => {
+        console.log("dispatch ok, res: ",res);
+        return dispatch(res);
+      });
     },
     signup() {
       signup().then((res) => dispatch(res));
@@ -83,15 +86,16 @@ class Me extends Component {
   }
   signOut() {}
 
-  UserPage() {
-    return (
+  render() {
+    const { isAuthenticated, user } = this.props.auth;
+    const UserPage = (
       <View className="me">
         <AtMessage />
         <View className="me-banner"></View>
         <View className="me-profile">
           <View className="me-profile__avatar"></View>
-          <View className="me-profile__nickname">Congb19</View>
-          <View className="me-profile__userid">通行证ID：7777</View>
+          <View className="me-profile__nickname">{ user.username }</View>
+          <View className="me-profile__userid">通行证ID：{ user.userid }</View>
           <View className="me-profile__tags">
             <AtTag active>原神 Lv1</AtTag>
             <AtTag active>崩坏3 Lv1</AtTag>
@@ -101,13 +105,11 @@ class Me extends Component {
             <Text className="me-profile__data--following">{1} 关注</Text>
             <Text className="me-profile__data--likes">{1} 获赞</Text>
           </View>
-          <AtButton onClick={this.onReady}>登录</AtButton>
+          <AtButton onClick={this.onReady}>退出登录</AtButton>
         </View>
       </View>
     );
-  }
-  GuestPage() {
-    return (
+    const GuestPage = (
       <View>
         <AtMessage />
         <AtForm
@@ -135,11 +137,17 @@ class Me extends Component {
         </AtForm>
       </View>
     );
-  }
-
-  render() {
-    if (this.state.isLoggedIn) return this.UserPage();
-    else return this.GuestPage();
+    if (isAuthenticated) return UserPage;
+      // if (this.state.isLoggedIn) return UserPage;
+    else return GuestPage;
   }
 }
-export default connect(null, { signin })(Me);
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    user: state.user
+  }
+}
+
+export default connect( mapStateToProps , { signin })(Me);

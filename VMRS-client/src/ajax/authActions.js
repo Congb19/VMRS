@@ -7,6 +7,7 @@ import { request } from "./index";
 import setAuthorizationToken from "../utils/setAuthorizationToken";
 import { SET_CURRENT_USER } from "../constants";
 
+//action
 export const setCurrentUser = (user) => {
   return {
     type: SET_CURRENT_USER,
@@ -34,9 +35,11 @@ export const signin = async (data) => {
   return async (dispatch) => {
     const res = await request(`/users/signin`, data, "POST");
     const token = res.data.token;
+    localStorage.setItem("token", token);
     //设置一下，本次登录以后，未来就都把token在头部传给服务器
     setAuthorizationToken(token);
     // console.log("token decode: ", jwtDecode(token));
+
     //触发action，更新state
     dispatch(setCurrentUser(jwtDecode(token)));
   };
