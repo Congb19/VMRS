@@ -1,19 +1,19 @@
-import { SET_CURRENT_USER } from "../constants"
-import {isEmpty} from "lodash"
+import { SET_CURRENT_USER } from '../constants';
+import { isEmpty } from 'lodash';
 const initialState = {
-  isAuthenticated: false,
-  user: {}
-}
+	isAuthenticated: false,
+	user: {},
+};
 
 const auth = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case SET_CURRENT_USER:
-      return {
-        isAuthenticated: !isEmpty(action.user),
-        user: action.user,
-      };
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case SET_CURRENT_USER:
+			return {
+				isAuthenticated: !isEmpty(action.user),
+				user: action.user,
+			};
+		default:
+			return state;
+	}
 };
 export default auth;

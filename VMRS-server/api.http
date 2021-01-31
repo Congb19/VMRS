@@ -1,6 +1,8 @@
 
 # test
-# GET http://localhost:8002/api/test2
+GET http://localhost:8002/api/public/getDate
+
+GET http://localhost:8002/api/test2
 
 # GET http://www.congb19.top/vmrs/api/test2
 

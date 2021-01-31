@@ -10,23 +10,12 @@
   },
   "scripts": {
     "build:weapp": "taro build --type weapp",
-    "build:swan": "taro build --type swan",
-    "build:alipay": "taro build --type alipay",
-    "build:tt": "taro build --type tt",
     "build:h5": "taro build --type h5",
-    "build:rn": "taro build --type rn",
-    "build:qq": "taro build --type qq",
-    "build:jd": "taro build --type jd",
     "build:quickapp": "taro build --type quickapp",
     "dev:weapp": "npm run build:weapp -- --watch",
-    "dev:swan": "npm run build:swan -- --watch",
-    "dev:alipay": "npm run build:alipay -- --watch",
-    "dev:tt": "npm run build:tt -- --watch",
     "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch",
-    "dev:qq": "npm run build:qq -- --watch",
-    "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "format": "npx npx prettier --write src/**/*.js src/**/*.jsx src/**/*.scss"
   },
   "browserslist": [
     "last 3 versions",
@@ -43,6 +32,7 @@
     "axios": "^0.21.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.20",
+    "prettier": "^2.2.1",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-loadable": "^5.5.0",

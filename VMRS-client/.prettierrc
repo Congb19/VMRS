@@ -1,0 +1,15 @@
+{
+  "useTabs": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": "*.wxml",
+      "options": { "parser": "html" }
+    }
+  ]
+}
