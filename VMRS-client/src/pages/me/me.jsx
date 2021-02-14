@@ -35,6 +35,13 @@ class Me extends Component {
 		};
 	}
 
+	componentDidMount() {
+		console.log('onready me');
+		(async () => {
+			let res = await getDate();
+			console.log('rqDate', res);
+		})();
+	}
 	handleUsernameChange(username) {
 		this.setState({
 			username,
@@ -48,14 +55,6 @@ class Me extends Component {
 		console.log(this.state);
 	}
 	handleReset() {}
-
-	onReady() {
-		console.log('onready me');
-		(async () => {
-			let res = await getDate();
-			console.log('rqDate', res);
-		})();
-	}
 
 	signIn = (e) => {
 		console.log('登录ing');

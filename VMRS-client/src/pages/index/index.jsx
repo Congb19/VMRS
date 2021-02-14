@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from '@tarojs/components';
 import './index.scss';
 
+import { getDate } from '../../ajax';
 import { AtButton } from 'taro-ui';
 
 export default class Index extends Component {

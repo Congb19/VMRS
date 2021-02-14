@@ -17,7 +17,11 @@ export const setCurrentUser = (user) => {
 
 // 注册
 export const signup = async (data) => {
-	const res = await request(`/users/signup`, data, 'POST');
+	const res = await request({
+		url: `/users/signup`, 
+		data,
+		method: 'POST'
+	});
 	console.log('signup, res: ', res);
 	if (res) {
 		const token = res.data.token;
@@ -33,7 +37,11 @@ export const signup = async (data) => {
 // 登录
 export const signin = async (data) => {
 	return async (dispatch) => {
-		const res = await request(`/users/signin`, data, 'POST');
+		const res = await request({
+			url: `/users/signin`,
+			data,
+			method: 'POST'
+		});
 		const token = res.data.token;
 		localStorage.setItem('token', token);
 		//设置一下，本次登录以后，未来就都把token在头部传给服务器
