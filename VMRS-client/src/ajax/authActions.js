@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Taro from '@tarojs/taro';
 import jwtDecode from 'jwt-decode';
 
@@ -18,9 +17,9 @@ export const setCurrentUser = (user) => {
 // 注册
 export const signup = async (data) => {
 	const res = await request({
-		url: `/users/signup`, 
+		url: `/users/signup`,
 		data,
-		method: 'POST'
+		method: 'POST',
 	});
 	console.log('signup, res: ', res);
 	if (res) {
@@ -34,16 +33,26 @@ export const signup = async (data) => {
 	}
 	return res;
 };
+
 // 登录
 export const signin = async (data) => {
 	return async (dispatch) => {
 		const res = await request({
 			url: `/users/signin`,
 			data,
-			method: 'POST'
+			method: 'POST',
 		});
 		const token = res.data.token;
-		localStorage.setItem('token', token);
+
+		// console.log(token);
+
+		//存入storage
+		// localStorage.setItem('token', token);
+		Taro.setStorage({
+			key: 'token',
+			data: token,
+		});
+
 		//设置一下，本次登录以后，未来就都把token在头部传给服务器
 		setAuthorizationToken(token);
 		// console.log("token decode: ", jwtDecode(token));

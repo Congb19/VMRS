@@ -1,8 +1,9 @@
-
 import Taro from '@tarojs/taro';
 import jwtDecode from 'jwt-decode';
 
 const baseUrl = 'http://localhost:8002/api';
+
+Taro.addInterceptor(Taro.interceptors.logInterceptor);
 
 export const request = async (params) => {
 	params.url = baseUrl + params.url;
