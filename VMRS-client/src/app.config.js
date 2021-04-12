@@ -4,7 +4,7 @@ export default {
 		list: [
 			{
 				iconPath: 'resource/hot.png',
-				selectedIconPath: 'resource/hot_on.png',
+				selectedIconPath: 'resource/test.gif',
 				pagePath: 'pages/index/index',
 				text: '首页',
 			},

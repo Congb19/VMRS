@@ -1,0 +1,42 @@
+.rec-item-card {
+	width: 350px;
+	height: 350px;
+	background-color: #ffffff;
+	margin-bottom: 20px;
+	border-radius: 10px;
+	box-shadow: 1px 3px 5px #ccc;
+	.card__img {
+		position: relative;
+		border-radius: 10px 10px 0 0;
+		height: 220px;
+		width: 350px;
+		color: #fff;
+		font-size: 24px;
+		background-image: url(https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2620306848,1106594030&fm=26&gp=0.jpg);
+		.card__img__infos {
+			position: absolute;
+			display: inline-block;
+			width: 350px;
+			bottom: 0;
+			.card__img__infos__rec {
+				position: relative;
+				left: 10px;
+			}
+			.card__img__infos__rate {
+				position: absolute;
+				left: 100px;
+			}
+			.card__img__infos__time {
+				position: absolute;
+				right: 10px;
+			}
+		}
+	}
+	.card__title {
+		padding: 8px 16px;
+		font-size: 24px;
+		> * {
+			display: inline-block;
+		}
+	}
+}

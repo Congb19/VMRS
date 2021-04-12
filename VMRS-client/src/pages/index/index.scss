@@ -1,0 +1,16 @@
+.index {
+	.index__header {
+		// position: fixed;
+		top: 0;
+		height: 90px;
+		background-color: beige;
+	}
+	.rec-list-view {
+		position: absolute;
+		top: 90px;
+		padding: 15px;
+		width: 720px;
+		height: 1380px;
+		background-color: #f4f4f4;
+	}
+}
