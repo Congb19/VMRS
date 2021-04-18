@@ -1,5 +1,5 @@
 export default {
-	pages: ['pages/index/index', 'pages/me/me'],
+	pages: ['pages/index/index', 'pages/me/me', 'pages/detail/detail'],
 	tabBar: {
 		list: [
 			{

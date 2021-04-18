@@ -1,14 +1,77 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { View, Text } from '@tarojs/components';
 import './index.scss';
-
-import { getDate } from '../../ajax';
-import { AtButton } from 'taro-ui';
 
 import RecItemCard from '../../components/rec-item-card/index';
 
 export default class Index extends Component {
-	componentDidMount() {}
+	constructor(props) {
+		super(props);
+		this.state = {
+			recList: [
+				{
+					movieId: 1,
+					rate: 9.9,
+					rec: 5,
+					time: '120:00',
+					title: '你好你好2你好你好你好你好你好你好',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 2,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好你好你好啊啊啊饿啊 你好',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 3,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好啊啊啊饿啊啊啊饿你好你好你好',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 4,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好是是你好你好你好啊啊啊饿啊啊啊啊',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 5,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好你好你好你a a a好',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 6,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好你好你好你a a a好',
+					cat: ['奇幻', '悬疑'],
+				},
+				{
+					movieId: 7,
+					rate: 8.8,
+					rec: 5,
+					time: '88:00',
+					title: '你好你好你好你a a a好',
+					cat: ['奇幻', '悬疑'],
+				},
+			],
+		};
+	}
+	componentDidMount() {
+		//todo: 请求获取推荐列表
+	}
 
 	// componentDidShow() {}
 
@@ -17,39 +80,26 @@ export default class Index extends Component {
 	onReady() {
 		console.log('onready');
 	}
-	onScrollToUpper = () => {};
-	onScroll = (e) => {
-		console.log(e.detail);
+	toDetail = (id) => {
+		//todo: navigate to
+		console.log(id);
+		Taro.navigateTo({
+			url: `/pages/detail/detail?id=${id}`,
+		});
 	};
 	render() {
-		const scrollStyle = {
-			height: '690px',
-		};
-		const scrollTop = 0;
-		const Threshold = 20;
-		return (
-			<View className="index">
-				<View className="index__header">VMRS</View>
-				<View className="rec-list-view">
-					<ScrollView
-						scrollY
-						scrollWithAnimation
-						scrollTop={scrollTop}
-						style={scrollStyle}
-						lowerThreshold={Threshold}
-						upperThreshold={Threshold}
-						onScrollToUpper={this.onScrollToUpper}
-						onScroll={this.onScroll}
-					>
-						{/* 此处用列表渲染 */}
-						<RecItemCard></RecItemCard>
-						<RecItemCard></RecItemCard>
-						<RecItemCard></RecItemCard>
-						<RecItemCard></RecItemCard>
-						<RecItemCard></RecItemCard>
-						<RecItemCard></RecItemCard>
-					</ScrollView>
+		let cardList = this.state.recList.map((el) => {
+			return (
+				<View key={el.movieId} onClick={this.toDetail.bind(this, el.movieId)}>
+					<RecItemCard data={el}></RecItemCard>
 				</View>
+			);
+		});
+		console.log(this.state.recList, cardList);
+		return (
+			<View className="index page">
+				<View className="page__header">VMRS</View>
+				<View className="rec-list-view">{cardList}</View>
 			</View>
 		);
 	}
