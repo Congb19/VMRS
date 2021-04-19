@@ -4,6 +4,15 @@ const UserController = require("../controllers/User");
 const UserProfileController = require("../controllers/UserProfile");
 const MovieInfoController = require("../controllers/MovieInfo");
 
+// const mysql = require("mysql");
+// var connection = mysql.createConnection({
+// 	host: 'localhost',
+// 	user: 'test',
+// 	password: 'QWER1234',
+// 	database: 'vmrs'
+// });
+// connection.connect();
+
 const router = new Router({
 	prefix: "/api",
 });
@@ -17,11 +26,16 @@ router.get("/", async (ctx, next) => {
 });
 router.get("/string", async (ctx, next) => {
 	ctx.body = "koa2 string";
+	// ctx.body = {
+	// 	test: 1,
+	// 	test2: 2,
+	// }
 });
 router.get("/json", async (ctx, next) => {
 	ctx.body = {
 		title: "koa2 json",
 		data: "data!",
+		arr: [1, 2]
 	};
 });
 router.get("/test2", async (ctx, next) => {
@@ -36,6 +50,20 @@ router.get("/test2", async (ctx, next) => {
 	await MovieInfoController.detail(ctx);
 	// ctx = ctx2;
 });
+
+// router.get("/test", async (ctx, next) => {
+// 	const select = async (sql) => {
+// 		return new Promise((resolve, reject) => {
+// 			connection.query(sql, function (err, results) {
+// 				resolve(results);
+// 			});
+// 		})
+// 	}
+// 	let res = await select("select * from User");
+// 	ctx.body = {
+// 		data: res,
+// 	}
+// });
 
 // 测试数据库
 

@@ -200,6 +200,8 @@ const RecommendUserService = class RecommendUserService {
 		return 1 / Math.log(1 + goods.length);
 	}
 };
+
+
 // 基于物品推荐
 const RecommendGoodsService = class RecommendGoodsService {
 	/**
