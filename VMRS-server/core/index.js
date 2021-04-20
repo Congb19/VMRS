@@ -233,6 +233,15 @@ const RecommendGoodsService = class RecommendGoodsService {
 		// 最终结果
 		this.result = [];
 	}
+	show() {
+		console.log("this.goodsList", this.goodsList);
+		console.log("this.users", this.users);
+		console.log("this.simpleList", this.simpleList);
+		console.log("this.userPerferList", this.userPerferList);
+		console.log("this.goodsMayPerferList", this.goodsMayPerferList);
+		console.log("this.resultRank", this.resultRank);
+		console.log("this.result", this.result);
+	}
 
 	/**
 	 * 入口
@@ -240,6 +249,8 @@ const RecommendGoodsService = class RecommendGoodsService {
 	start() {
 		// 获取待计算数据
 		this.getInitialData();
+
+		// this.show();
 		// 开始计算用户对未买过的商品感兴趣程度
 		for (let goodsId of this.goodsMayPerferList.values()) {
 			const res = this.getUserInterest(goodsId);
@@ -254,6 +265,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 			array.push(obj.goodsId);
 			return array;
 		}, []);
+		this.show();
 		return this.result;
 	}
 	/**
@@ -299,6 +311,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	 * @param {*商品ID} goodsId
 	 */
 	getGoodsGrade(isDelSelf, goodsId) {
+
 		this.simpleList = [];
 		this.goodsId = goodsId;
 		// 获取待计算商品列表
@@ -413,6 +426,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	 * 相似度归一化
 	 */
 	gradeNormalization() {
+		console.log("normalizaing……")
 		// 取最大值
 		const max = this.simpleList[0].grade;
 		for (let index of this.simpleList.keys()) {

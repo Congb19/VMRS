@@ -2,6 +2,8 @@ const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("vmrs", "test", "QWER1234", {
 	host: "localhost",
+	// host: "159.75.85.197",
+
 	dialect: "mysql",
 	// operatorsAliases: false,
 	dialectOptions: {

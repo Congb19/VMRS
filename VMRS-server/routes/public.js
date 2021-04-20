@@ -15,25 +15,75 @@ const { RecommendGoodsService } = require("../core/index");
 // mock
 let data = [
 	{
-		userid: 1,
-		goodsid: 1,
-		grade: 9.9
+		userId: 1,
+		goodsId: 1,
+		// grade: 9.9
 	},
 	{
-		userid: 1,
-		goodsid: 2,
-		grade: 9.8
+		userId: 1,
+		goodsId: 2,
+		// grade: 9.9
 	},
 	{
-		userid: 2,
-		goodsid: 2,
-		grade: 9.7
+		userId: 2,
+		goodsId: 1,
+		// grade: 9.8
+	},
+	{
+		userId: 2,
+		goodsId: 3,
+		// grade: 9.7
+	},
+	{
+		userId: 2,
+		goodsId: 4,
+		// grade: 9.7
+	},
+	{
+		userId: 2,
+		goodsId: 6,
+		// grade: 9.7
+	},
+	{
+		userId: 3,
+		goodsId: 1,
+		// grade: 9.9
+	},
+	{
+		userId: 3,
+		goodsId: 3,
+		// grade: 9.9
+	},
+	{
+		userId: 3,
+		goodsId: 4,
+		// grade: 9.9
+	},
+	{
+		userId: 3,
+		goodsId: 5,
+		// grade: 9.9
+	},
+	{
+		userId: 3,
+		goodsId: 6,
+		// grade: 9.9
+	},
+	{
+		userId: 4,
+		goodsId: 5,
+		// grade: 9.9
+	},
+	{
+		userId: 4,
+		goodsId: 4,
+		// grade: 9.9
 	},
 ]
-let modal = new RecommendGoodsService(data, 1, 3, 1);
+let modal = new RecommendGoodsService(data, 1, 4, 1);
 
 //go
-// modal.start();
+modal.start();
 
 console.log(modal.result);
 
