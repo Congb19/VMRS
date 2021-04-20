@@ -20,7 +20,9 @@ export default class Detail extends Component {
 	render() {
 		return (
 			<View className="detail page">
-				<View className="page__header">VMRS-推荐详情</View>
+				<View className="page__header">
+					<View className="header__title">--推荐详情</View>
+				</View>
 			</View>
 		);
 	}

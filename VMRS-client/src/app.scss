@@ -9,6 +9,23 @@
 		z-index: 999;
 		height: 90px;
 		width: 100%;
-		background-color: beige;
+		box-shadow: 1px 3px 5px #ccc;
+		background-color: #fafafa;
+		.header__title {
+			position: absolute;
+			left: 20px;
+			font-size: 30px;
+			line-height: 90px;
+		}
+	}
+	.page__refresh {
+		position: fixed;
+		width: 100px;
+		height: 100px;
+		// background-color: blue;
+		border-radius: 50%;
+		bottom: 125px;
+		right: 20px;
+		box-shadow: 1px 3px 5px #ccc;
 	}
 }

@@ -236,7 +236,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	show() {
 		console.log("this.goodsList", this.goodsList);
 		console.log("this.users", this.users);
-		console.log("this.simpleList", this.simpleList);
+		// console.log("this.simpleList", this.simpleList);
 		console.log("this.userPerferList", this.userPerferList);
 		console.log("this.goodsMayPerferList", this.goodsMayPerferList);
 		console.log("this.resultRank", this.resultRank);
@@ -254,6 +254,10 @@ const RecommendGoodsService = class RecommendGoodsService {
 		// 开始计算用户对未买过的商品感兴趣程度
 		for (let goodsId of this.goodsMayPerferList.values()) {
 			const res = this.getUserInterest(goodsId);
+			res.simi = [];
+			this.simpleList.forEach((el) => {
+				res.simi.push({ goodsId: el.goodsId, grade: el.grade });
+			})
 			this.resultRank.push(res);
 		}
 		// 逆序排序
@@ -333,6 +337,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		}
 		// 相似度归一化
 		this.gradeNormalization();
+		console.log("goodsId:", goodsId, "this.simplelist:", this.simpleList)
 		return this.simpleList;
 	}
 	/**
