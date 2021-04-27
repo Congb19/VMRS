@@ -13,7 +13,7 @@ const { RecommendGoodsService } = require("../core/index");
 
 // console.log(RecommendGoodsService);
 // mock
-let data = [
+let mock = [
 	{
 		userId: 1,
 		goodsId: 1,
@@ -80,12 +80,6 @@ let data = [
 		// grade: 9.9
 	},
 ]
-let modal = new RecommendGoodsService(data, 1, 4, 1);
-
-//go
-modal.start();
-
-console.log(modal.result);
 
 
 //公用api
@@ -109,10 +103,34 @@ router.get("/getDate", async (ctx, next) => {
 });
 
 //getRecList
+
 router.get("/getRecList", async (ctx, next) => {
+	const req = ctx.request;
+	console.log(ctx, req);
+
+	let modal = new RecommendGoodsService(mock, 1, 4, 1);
+	//go
+	modal.start();
+	console.log(modal.result);
 
 	ctx.body = {
-		data: [1, 2],
+		movieId: 1, //根据哪一部推送的
+		recList: modal.resultRank,
+	};
+})
+
+//getRecDetail
+
+router.post("/getRecDetail", async (ctx, next) => {
+	const req = ctx.request;
+	console.log(req.body.goodsId);
+
+	ctx.body = {
+		movieId: req.body.goodsId,
+		title: "titanic 20202020",
+		time: "120:00",
+		cat: ["奇幻", "悬疑"],
+		rate: 9.9,//豆瓣评分
 	};
 })
 

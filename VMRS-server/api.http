@@ -1,5 +1,7 @@
 
 # test
+GET http://localhost:8002/api/public/getRecList
+
 GET http://localhost:8002/api/public/getDate
 
 GET http://localhost:8002/api/test2

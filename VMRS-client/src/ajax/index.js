@@ -21,7 +21,6 @@ export const request = async (params) => {
 	}
 };
 
-// http://www.congb19.top/api/public/getDate
 /**
  * 日期 getDate
  * @param null
@@ -30,6 +29,33 @@ export const getDate = async () => {
 	const res = await request({
 		url: `/public/getDate`,
 		method: `GET`,
+	});
+	return res;
+};
+
+/**
+ * 列表 getRecList
+ * @param null
+ */
+export const getRecList = async () => {
+	const res = await request({
+		url: `/public/getRecList`,
+		method: `GET`,
+	});
+	return res;
+};
+
+/**
+ * 详情 getRecDetail
+ * @param id
+ */
+export const getRecDetail = async (params) => {
+	const res = await request({
+		url: `/public/getRecDetail`,
+		method: `POST`,
+		data: {
+			goodsId: params.goodsId
+		}
 	});
 	return res;
 };
