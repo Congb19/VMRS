@@ -43,8 +43,8 @@ const RecommendUserService = class RecommendUserService {
 		this.targetGoods = [...new Set(this.targetGoods)];
 
 		// 计算用户对每个商品的感兴趣程度
-		for (let goodsId of this.targetGoods.values()) {
-			this.getInterestedGrade(goodsId);
+		for (let movieId of this.targetGoods.values()) {
+			this.getInterestedGrade(movieId);
 		}
 		// 计算最终商品列表并逆序排序
 		this.getFinalResult();
@@ -58,18 +58,18 @@ const RecommendUserService = class RecommendUserService {
 			return b.grade - a.grade;
 		});
 		for (let obj of this.interestedGrade.values()) {
-			this.result.push(obj.goodsId);
+			this.result.push(obj.movieId);
 		}
 	}
 	/**
 	 * 计算用户对该商品的感兴趣程度
-	 * @param {*商品ID} goodsId
+	 * @param {*商品ID} movieId
 	 */
-	getInterestedGrade(goodsId) {
-		// 筛选出对商品goodsId用过行为的用户
+	getInterestedGrade(movieId) {
+		// 筛选出对商品movieId用过行为的用户
 		let array = new Set();
 		for (let obj of this.data.values()) {
-			if (obj.goodsId === goodsId) {
+			if (obj.movieId === movieId) {
 				array.add(obj.userId);
 			}
 		}
@@ -89,7 +89,7 @@ const RecommendUserService = class RecommendUserService {
 		}
 		// 添加到最终结果
 		this.interestedGrade.push({
-			goodsId: goodsId,
+			movieId: movieId,
 			grade: grade,
 		});
 	}
@@ -103,7 +103,7 @@ const RecommendUserService = class RecommendUserService {
 			const element = this.similarityList[index];
 			_.filter(this.data, (obj) => {
 				if (obj.userId == element.userId) {
-					this.targetGoods.push(obj.goodsId);
+					this.targetGoods.push(obj.movieId);
 				}
 				return obj.userId == element.userId;
 			});
@@ -121,8 +121,8 @@ const RecommendUserService = class RecommendUserService {
 		});
 		// 删除本用户买过的商品
 		for (let obj of userGoods.values()) {
-			if (this.targetGoods.includes(obj.goodsId)) {
-				this.targetGoods.splice(this.targetGoods.indexOf(obj.goodsId), 1);
+			if (this.targetGoods.includes(obj.movieId)) {
+				this.targetGoods.splice(this.targetGoods.indexOf(obj.movieId), 1);
 			}
 		}
 	}
@@ -164,9 +164,9 @@ const RecommendUserService = class RecommendUserService {
 		let count = 0;
 		userSelfGoods.forEach((ele) => {
 			for (let index in this.userGoodsTemp) {
-				if (ele.goodsId == this.userGoodsTemp[index].goodsId) {
+				if (ele.movieId == this.userGoodsTemp[index].movieId) {
 					// 惩罚热门商品,计算惩罚参数
-					const log = this.filterGoodsById(ele.goodsId);
+					const log = this.filterGoodsById(ele.movieId);
 					// 可在此处添加weight权重，log * weight
 					count += log;
 				}
@@ -190,12 +190,12 @@ const RecommendUserService = class RecommendUserService {
 		});
 	}
 	/**
-	 * 过滤出商品goodsId的商品列表
-	 * @param {商品ID} goodsId
+	 * 过滤出商品movieId的商品列表
+	 * @param {商品ID} movieId
 	 */
-	filterGoodsById(goodsId) {
+	filterGoodsById(movieId) {
 		const goods = _.filter(this.data, (obj) => {
-			return obj.goodsId == goodsId;
+			return obj.movieId == movieId;
 		});
 		return 1 / Math.log(1 + goods.length);
 	}
@@ -207,13 +207,13 @@ const RecommendGoodsService = class RecommendGoodsService {
 	/**
 	 * 构造方法
 	 * @param {*倒查表所有数据组成的数组} data
-	 * @param {*商品ID} goodsId
+	 * @param {*商品ID} movieId
 	 * @param {*用户ID} userId
 	 * @param {*相似度最高的前k个} k
 	 */
-	constructor(data, userId, k, goodsId) {
+	constructor(data, userId, k, movieId) {
 		this.data = data;
-		this.goodsId = goodsId;
+		this.movieId = movieId;
 		this.userId = userId;
 		// 筛选前k个商品······用于模块一······
 		this.k = k;
@@ -252,11 +252,11 @@ const RecommendGoodsService = class RecommendGoodsService {
 
 		// this.show();
 		// 开始计算用户对未买过的商品感兴趣程度
-		for (let goodsId of this.goodsMayPerferList.values()) {
-			const res = this.getUserInterest(goodsId);
+		for (let movieId of this.goodsMayPerferList.values()) {
+			const res = this.getUserInterest(movieId);
 			res.simi = [];
 			this.simpleList.forEach((el) => {
-				res.simi.push({ goodsId: el.goodsId, grade: el.grade });
+				res.simi.push({ movieId: el.movieId, grade: el.grade });
 			})
 			this.resultRank.push(res);
 		}
@@ -266,7 +266,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		});
 		// 获取最终结果
 		this.result = this.resultRank.reduce((array, obj) => {
-			array.push(obj.goodsId);
+			array.push(obj.movieId);
 			return array;
 		}, []);
 		this.show();
@@ -274,18 +274,18 @@ const RecommendGoodsService = class RecommendGoodsService {
 	}
 	/**
 	 * 计算用户对该商品的感兴趣程度
-	 * @param {*商品ID} goodsId
+	 * @param {*商品ID} movieId
 	 */
-	getUserInterest(goodsId) {
-		// 获取goodsId相似的商品列表
-		const simple = this.getGoodsGrade(false, goodsId);
+	getUserInterest(movieId) {
+		// 获取movieId相似的商品列表
+		const simple = this.getGoodsGrade(false, movieId);
 		let grade = 0;
 		for (let [index, obj] of simple.entries()) {
-			if (this.userPerferList.includes(obj.goodsId) && index < this.k) {
+			if (this.userPerferList.includes(obj.movieId) && index < this.k) {
 				grade += obj.grade;
 			}
 		}
-		return { goodsId, grade };
+		return { movieId, grade };
 	}
 	/**
 	 * 获取待计算数据
@@ -293,38 +293,38 @@ const RecommendGoodsService = class RecommendGoodsService {
 	getInitialData() {
 		// 获取当前人的喜爱记录
 		this.userPerferList = this.data.reduce((array, obj) => {
-			if (obj.userId === this.userId && !array.includes(obj.goodsId)) {
-				array.push(obj.goodsId);
+			if (obj.userId === this.userId && !array.includes(obj.movieId)) {
+				array.push(obj.movieId);
 			}
 			return array;
 		}, []);
 		// 获取当前用户没买过的商品列表
 		this.goodsMayPerferList = this.data.reduce((array, obj) => {
 			if (
-				!array.includes(obj.goodsId) &&
-				!this.userPerferList.includes(obj.goodsId)
+				!array.includes(obj.movieId) &&
+				!this.userPerferList.includes(obj.movieId)
 			) {
-				array.push(obj.goodsId);
+				array.push(obj.movieId);
 			}
 			return array;
 		}, []);
 	}
 	/**
-	 * 计算与商品goodsId相似的前k个商品列表,······模块一······
+	 * 计算与商品movieId相似的前k个商品列表,······模块一······
 	 * @param {*是否去掉自身相关的商品} isDelSelf
-	 * @param {*商品ID} goodsId
+	 * @param {*商品ID} movieId
 	 */
-	getGoodsGrade(isDelSelf, goodsId) {
+	getGoodsGrade(isDelSelf, movieId) {
 
 		this.simpleList = [];
-		this.goodsId = goodsId;
+		this.movieId = movieId;
 		// 获取待计算商品列表
 		this.getGoodsList();
 		// 获取当前商品的购买人列表
-		this.users = this.getGoodsUserNum(this.goodsId);
+		this.users = this.getGoodsUserNum(this.movieId);
 		// 计算相似度
-		for (let goodsId of this.goodsList.values()) {
-			this.getGoodsSimple(goodsId);
+		for (let movieId of this.goodsList.values()) {
+			this.getGoodsSimple(movieId);
 		}
 		// 根据相似度排序
 		this.simpleList.sort((a, b) => {
@@ -337,7 +337,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		}
 		// 相似度归一化
 		this.gradeNormalization();
-		console.log("goodsId:", goodsId, "this.simplelist:", this.simpleList)
+		console.log("movieId:", movieId, "this.simplelist:", this.simpleList)
 		return this.simpleList;
 	}
 	/**
@@ -346,8 +346,8 @@ const RecommendGoodsService = class RecommendGoodsService {
 	getGoodsList() {
 		//筛选除了本商品之外的商品数据
 		const goodsArray = this.data.reduce((array, obj) => {
-			if (obj.goodsId !== this.goodsId) {
-				array.push(obj.goodsId);
+			if (obj.movieId !== this.movieId) {
+				array.push(obj.movieId);
 			}
 			return array;
 		}, []);
@@ -363,23 +363,23 @@ const RecommendGoodsService = class RecommendGoodsService {
 		// 筛选当前用户买过的商品
 		const userGoods = this.data.reduce((array, obj) => {
 			if (obj.userId === this.userId) {
-				array.push(obj.goodsId);
+				array.push(obj.movieId);
 			}
 			return array;
 		}, []);
 		// 删除本用户买过的商品
 		for (let [index, obj] of this.simpleList.entries()) {
-			if (userGoods.includes(obj.goodsId)) {
+			if (userGoods.includes(obj.movieId)) {
 				this.simpleList.splice(index, 1);
 			}
 		}
 	}
 	/**
 	 * 获取商品相似度列表
-	 * @param {商品ID} goodsId
+	 * @param {商品ID} movieId
 	 */
-	getGoodsSimple(goodsId) {
-		const users = this.getGoodsUserNum(goodsId);
+	getGoodsSimple(movieId) {
+		const users = this.getGoodsUserNum(movieId);
 		// 计算相似度的分母
 		const bottom = Math.sqrt(this.users.length * users.length);
 		let count = 0;
@@ -392,7 +392,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		}
 		// 保存结果对象，包括商品ID和相似度
 		const res = {
-			goodsId,
+			movieId,
 			grade: count / bottom,
 		};
 		this.simpleList.push(res);
@@ -405,7 +405,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		// 找到用户买过的商品数量
 		const goodsNum = this.data.reduce((array, obj) => {
 			if (obj.userId === userId) {
-				array.push(obj.goodsId);
+				array.push(obj.movieId);
 			}
 			return array;
 		}, []);
@@ -415,12 +415,12 @@ const RecommendGoodsService = class RecommendGoodsService {
 	}
 	/**
 	 * 获取商品的购买人
-	 * @param {*商品ID} goodsId
+	 * @param {*商品ID} movieId
 	 */
-	getGoodsUserNum(goodsId) {
+	getGoodsUserNum(movieId) {
 		//得到商品的购买人
 		const users = this.data.reduce((array, obj) => {
-			if (obj.goodsId === goodsId) {
+			if (obj.movieId === movieId) {
 				array.push(obj.userId);
 			}
 			return array;

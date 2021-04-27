@@ -6,7 +6,7 @@ const { RecommendGoodsService } = require("../core/index");
 
 // todo: 
 // 构建一张大数据表
-// Data, userid（我）, k, goodsid（基于的物品） 传入RecommendGoodsService，构建一个推荐实例。
+// Data, userid（我）, k, movieId（基于的物品） 传入RecommendGoodsService，构建一个推荐实例。
 // 实例.start()
 // 返回推荐结果
 // 根据结果从movieinfo中取详细数据。
@@ -16,67 +16,67 @@ const { RecommendGoodsService } = require("../core/index");
 let mock = [
 	{
 		userId: 1,
-		goodsId: 1,
+		movieId: 1,
 		// grade: 9.9
 	},
 	{
 		userId: 1,
-		goodsId: 2,
+		movieId: 2,
 		// grade: 9.9
 	},
 	{
 		userId: 2,
-		goodsId: 1,
+		movieId: 1,
 		// grade: 9.8
 	},
 	{
 		userId: 2,
-		goodsId: 3,
+		movieId: 3,
 		// grade: 9.7
 	},
 	{
 		userId: 2,
-		goodsId: 4,
+		movieId: 4,
 		// grade: 9.7
 	},
 	{
 		userId: 2,
-		goodsId: 6,
+		movieId: 6,
 		// grade: 9.7
 	},
 	{
 		userId: 3,
-		goodsId: 1,
+		movieId: 1,
 		// grade: 9.9
 	},
 	{
 		userId: 3,
-		goodsId: 3,
+		movieId: 3,
 		// grade: 9.9
 	},
 	{
 		userId: 3,
-		goodsId: 4,
+		movieId: 4,
 		// grade: 9.9
 	},
 	{
 		userId: 3,
-		goodsId: 5,
+		movieId: 5,
 		// grade: 9.9
 	},
 	{
 		userId: 3,
-		goodsId: 6,
+		movieId: 6,
 		// grade: 9.9
 	},
 	{
 		userId: 4,
-		goodsId: 5,
+		movieId: 5,
 		// grade: 9.9
 	},
 	{
 		userId: 4,
-		goodsId: 4,
+		movieId: 4,
 		// grade: 9.9
 	},
 ]
@@ -123,10 +123,10 @@ router.get("/getRecList", async (ctx, next) => {
 
 router.post("/getRecDetail", async (ctx, next) => {
 	const req = ctx.request;
-	console.log(req.body.goodsId);
+	console.log(req.body.movieId);
 
 	ctx.body = {
-		movieId: req.body.goodsId,
+		movieId: req.body.movieId,
 		title: "titanic 20202020",
 		time: "120:00",
 		cat: ["奇幻", "悬疑"],

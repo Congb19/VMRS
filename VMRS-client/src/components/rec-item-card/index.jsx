@@ -26,7 +26,7 @@ export default class RecItemCard extends Component {
 		console.log('props: ', this.props);
 
 		// (async () => {
-		res = await getRecDetail({ goodsId: this.props.data });
+		res = await getRecDetail({ movieId: this.props.data });
 		console.log('rqRecDetail', res);
 		// })();
 

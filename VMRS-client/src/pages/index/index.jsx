@@ -65,7 +65,7 @@ export default class Index extends Component {
 			cardList = this.state.recList.map((el) => {
 				// console.log('el; ', el);
 				return (
-					<View key={el.goodsId} onClick={this.toDetail.bind(this, el.goodsId)}>
+					<View key={el.movieId} onClick={this.toDetail.bind(this, el.movieId)}>
 						<RecItemCard data={el}></RecItemCard>
 					</View>
 				);

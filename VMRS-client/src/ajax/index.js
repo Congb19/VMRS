@@ -54,7 +54,7 @@ export const getRecDetail = async (params) => {
 		url: `/public/getRecDetail`,
 		method: `POST`,
 		data: {
-			goodsId: params.goodsId
+			movieId: params.movieId
 		}
 	});
 	return res;
