@@ -9,6 +9,9 @@ import {
 	AtModalContent,
 	AtModalAction,
 } from 'taro-ui';
+
+import * as echarts from 'echarts';
+
 import './index.scss';
 
 import RecItemCard from '../../components/rec-item-card/index';
@@ -38,6 +41,10 @@ export default class Index extends Component {
 			recList: res.recList,
 		});
 		// this.render();
+		this.setState({
+			chart: echarts.init(document.getElementById('index-chart')),
+		});
+		this.drawChart();
 	}
 
 	// componentDidShow() {}
@@ -57,6 +64,48 @@ export default class Index extends Component {
 			url: `/pages/detail/detail?id=${id}`,
 		});
 	};
+	drawChart = () => {
+		this.state.chart.setOption({
+			title: {
+				text: '你可能的感兴趣程度',
+			},
+			tooltip: {
+				trigger: 'item',
+			},
+			series: [
+				{
+					name: '感兴趣程度',
+					type: 'pie',
+					radius: ['30%', '70%'],
+					avoidLabelOverlap: false,
+					itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2,
+					},
+					// label: {
+					// 	show: true,
+					// 	position: 'center',
+					// },
+					// emphasis: {
+					// 	label: {
+					// 		show: true,
+					// 		fontSize: '40',
+					// 		fontWeight: 'bold',
+					// 	},
+					// },
+					labelLine: {
+						show: false,
+					},
+					data: [
+						{ name: 'titanic', value: 0.8 },
+						{ name: 'titanic', value: 0.8 },
+						{ name: 'titanic', value: 0.8 },
+					],
+				},
+			],
+		});
+	};
 	render() {
 		// let tmp = 1;
 		// let cardList = <RecItemCard data={tmp}></RecItemCard>;
@@ -71,6 +120,7 @@ export default class Index extends Component {
 				);
 			});
 		console.log(this.state.recList, cardList);
+
 		return (
 			<View className="index page">
 				<View className="page__header index__header">
@@ -99,7 +149,9 @@ export default class Index extends Component {
 				>
 					<AtModalHeader>推荐理由分析</AtModalHeader>
 					<AtModalContent>
-						<View>123</View>
+						<View>
+							<View id="index-chart"></View>
+						</View>
 					</AtModalContent>
 				</AtModal>
 			</View>
