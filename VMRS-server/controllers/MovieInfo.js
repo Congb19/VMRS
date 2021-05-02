@@ -2,7 +2,7 @@ const { MovieInfoModel } = require("../modules/MovieInfo");
 
 class MovieInfoController {
 	static async detail(ctx) {
-		let movieID = ctx.request.body.movieID;
+		let movieID = ctx.request.body.movieId;
 		if (movieID) {
 			try {
 				let data = await MovieInfoModel.getMovieInfoDetail(movieID);

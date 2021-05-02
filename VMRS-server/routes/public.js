@@ -4,6 +4,9 @@ router.prefix("/api/public");
 
 const { RecommendGoodsService } = require("../core/index");
 
+const MovieInfoController = require("../controllers/MovieInfo");
+const UserRateController = require("../controllers/UserRate");
+
 // todo: 
 // 构建一张大数据表
 // Data, userid（我）, k, movieId（基于的物品） 传入RecommendGoodsService，构建一个推荐实例。
@@ -13,73 +16,73 @@ const { RecommendGoodsService } = require("../core/index");
 
 // console.log(RecommendGoodsService);
 // mock
-let mock = [
-	{
-		userId: 1,
-		movieId: 1,
-		// grade: 9.9
-	},
-	{
-		userId: 1,
-		movieId: 2,
-		// grade: 9.9
-	},
-	{
-		userId: 2,
-		movieId: 1,
-		// grade: 9.8
-	},
-	{
-		userId: 2,
-		movieId: 3,
-		// grade: 9.7
-	},
-	{
-		userId: 2,
-		movieId: 4,
-		// grade: 9.7
-	},
-	{
-		userId: 2,
-		movieId: 6,
-		// grade: 9.7
-	},
-	{
-		userId: 3,
-		movieId: 1,
-		// grade: 9.9
-	},
-	{
-		userId: 3,
-		movieId: 3,
-		// grade: 9.9
-	},
-	{
-		userId: 3,
-		movieId: 4,
-		// grade: 9.9
-	},
-	{
-		userId: 3,
-		movieId: 5,
-		// grade: 9.9
-	},
-	{
-		userId: 3,
-		movieId: 6,
-		// grade: 9.9
-	},
-	{
-		userId: 4,
-		movieId: 5,
-		// grade: 9.9
-	},
-	{
-		userId: 4,
-		movieId: 4,
-		// grade: 9.9
-	},
-]
+// let mock = [
+// 	{
+// 		userId: 1,
+// 		movieId: 1,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 1,
+// 		movieId: 2,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 2,
+// 		movieId: 1,
+// 		// grade: 9.8
+// 	},
+// 	{
+// 		userId: 2,
+// 		movieId: 3,
+// 		// grade: 9.7
+// 	},
+// 	{
+// 		userId: 2,
+// 		movieId: 4,
+// 		// grade: 9.7
+// 	},
+// 	{
+// 		userId: 2,
+// 		movieId: 6,
+// 		// grade: 9.7
+// 	},
+// 	{
+// 		userId: 3,
+// 		movieId: 1,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 3,
+// 		movieId: 3,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 3,
+// 		movieId: 4,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 3,
+// 		movieId: 5,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 3,
+// 		movieId: 6,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 4,
+// 		movieId: 5,
+// 		// grade: 9.9
+// 	},
+// 	{
+// 		userId: 4,
+// 		movieId: 4,
+// 		// grade: 9.9
+// 	},
+// ]
 
 
 //公用api
@@ -108,10 +111,15 @@ router.get("/getRecList", async (ctx, next) => {
 	const req = ctx.request;
 	console.log(ctx, req);
 
-	let modal = new RecommendGoodsService(mock, 1, 4, 1);
+	let data = await UserRateController.getData();
+	console.log("get data ok");
+
+	let modal = new RecommendGoodsService(data, "vinika", 4, "7064681");
 	//go
 	modal.start();
 	console.log(modal.result);
+	console.log("modal start ok");
+
 
 	ctx.body = {
 		movieId: 1, //根据哪一部推送的
@@ -125,13 +133,15 @@ router.post("/getRecDetail", async (ctx, next) => {
 	const req = ctx.request;
 	console.log(req.body.movieId);
 
-	ctx.body = {
-		movieId: req.body.movieId,
-		title: "titanic 20202020",
-		time: "120:00",
-		cat: ["奇幻", "悬疑"],
-		rate: 9.9,//豆瓣评分
-	};
+	await MovieInfoController.detail(ctx);
+
+	// ctx.body = {
+	// 	movieId: req.body.movieId,
+	// 	title: "titanic 20202020",
+	// 	time: "120:00",
+	// 	cat: ["奇幻", "悬疑"],
+	// 	rate: 9.9,//豆瓣评分
+	// };
 })
 
 module.exports = router;

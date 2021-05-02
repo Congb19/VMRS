@@ -234,13 +234,13 @@ const RecommendGoodsService = class RecommendGoodsService {
 		this.result = [];
 	}
 	show() {
-		console.log("this.goodsList", this.goodsList);
-		console.log("this.users", this.users);
-		// console.log("this.simpleList", this.simpleList);
-		console.log("this.userPerferList", this.userPerferList);
-		console.log("this.goodsMayPerferList", this.goodsMayPerferList);
+		// console.log("this.goodsList", this.goodsList);
+		// console.log("this.users", this.users);
+		// // console.log("this.simpleList", this.simpleList);
+		// console.log("this.userPerferList", this.userPerferList);
+		// console.log("this.goodsMayPerferList", this.goodsMayPerferList);
 		console.log("this.resultRank", this.resultRank);
-		console.log("this.result", this.result);
+		// console.log("this.result", this.result);
 	}
 
 	/**
@@ -337,7 +337,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		}
 		// 相似度归一化
 		this.gradeNormalization();
-		console.log("movieId:", movieId, "this.simplelist:", this.simpleList)
+		// console.log("movieId:", movieId, "this.simplelist:", this.simpleList)
 		return this.simpleList;
 	}
 	/**
@@ -431,7 +431,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	 * 相似度归一化
 	 */
 	gradeNormalization() {
-		console.log("normalizaing……")
+		// console.log("normalizaing……")
 		// 取最大值
 		const max = this.simpleList[0].grade;
 		for (let index of this.simpleList.keys()) {

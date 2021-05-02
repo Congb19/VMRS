@@ -26,12 +26,13 @@ export default class RecItemCard extends Component {
 		console.log('props: ', this.props);
 
 		// (async () => {
-		res = await getRecDetail({ movieId: this.props.data });
-		console.log('rqRecDetail', res);
+		res = await getRecDetail({ movieId: this.props.data.movieId });
+		// res = await getRecDetail({ movieId: 1292223 });
+		console.log('rqRecDetail', res.data);
 		// })();
 
 		this.setState({
-			data: res,
+			data: res.data,
 		});
 	}
 
@@ -61,15 +62,16 @@ export default class RecItemCard extends Component {
 							{this.state.data.rate}
 						</Text>
 						<Text className="card__img__infos__time">
-							{this.state.data.time}
+							{this.state.data.director}
 						</Text>
 					</View>
 				</View>
 				<View className="card__title">
-					<Text>{this.state.data.title}</Text>
+					<Text>{this.state.data.name}</Text>
 					{/* <br /> */}
 					<Text className="card__title__cat">
-						{this.state.data.cat.join('，')}
+						{/* {this.state.data.genre.join('，')} */}
+						{this.state.data.genre}
 					</Text>
 				</View>
 			</View>

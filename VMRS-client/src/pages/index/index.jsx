@@ -109,16 +109,18 @@ export default class Index extends Component {
 	render() {
 		// let tmp = 1;
 		// let cardList = <RecItemCard data={tmp}></RecItemCard>;
-		let cardList;
-		if (this.state.recList && this.state.recList.length > 0)
-			cardList = this.state.recList.map((el) => {
-				// console.log('el; ', el);
+		let cardList,
+			shownList = [];
+		if (this.state.recList && this.state.recList.length > 0) {
+			shownList = this.state.recList.slice(0, 10);
+			cardList = shownList.map((el, index) => {
 				return (
 					<View key={el.movieId} onClick={this.toDetail.bind(this, el.movieId)}>
 						<RecItemCard data={el}></RecItemCard>
 					</View>
 				);
 			});
+		}
 		console.log(this.state.recList, cardList);
 
 		return (
