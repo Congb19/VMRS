@@ -57,7 +57,7 @@ class UserRateModel {
       where: {
         [Op.and]: [
           { id: { [Op.lt]: 3000, } },
-          { rate: { [Op.gt]: 3, } },
+          // { rate: { [Op.gt]: 3, } },
           // { id: { [Op.lt]: 200, } },
         ],
       }

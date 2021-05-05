@@ -8,6 +8,7 @@ import {
 	AtModalHeader,
 	AtModalContent,
 	AtModalAction,
+	AtMessage,
 } from 'taro-ui';
 
 import * as echarts from 'echarts';
@@ -16,7 +17,7 @@ import './index.scss';
 
 import RecItemCard from '../../components/rec-item-card/index';
 
-import { getRecList } from '../../ajax';
+import { getRecList, getRecDetail } from '../../ajax';
 import { get } from 'lodash';
 
 export default class Index extends Component {
@@ -44,7 +45,34 @@ export default class Index extends Component {
 		this.setState({
 			chart: echarts.init(document.getElementById('index-chart')),
 		});
-		this.drawChart();
+
+		console.log('测试', this.state);
+
+		let names = [],
+			values = [];
+		// const getDetail = async () => {
+		// 	for (let i = 0; i < 10; ++i) {
+		// 		console.log('in for', this.state.recList[i].movieId);
+
+		// 		let res = await getRecDetail.bind(this, this.state.recList[i].movieId);
+		// 		names[i] = res.name;
+		// 		values[i] = (this.state.recList[i].grade * 100).toFixed(0);
+		// 	}
+
+		// 	console.log('测试2', this.state);
+		// };
+
+		// await getDetail();
+		for (let i = 0; i < 10; i++) {
+			names[i] =
+				this.state.recList[i].data.name.length > 4
+					? this.state.recList[i].data.name.slice(0, 3) + '...'
+					: this.state.recList[i].data.name;
+			values[i] = (this.state.recList[i].grade * 100).toFixed(0);
+		}
+		names.reverse();
+		values.reverse();
+		this.drawChart(names, values);
 	}
 
 	// componentDidShow() {}
@@ -64,44 +92,38 @@ export default class Index extends Component {
 			url: `/pages/detail/detail?id=${id}`,
 		});
 	};
-	drawChart = () => {
+	drawChart = async (names, values) => {
+		// this.state.recList;
 		this.state.chart.setOption({
 			title: {
 				text: '你可能的感兴趣程度',
+				subtext: '数据来自网络',
 			},
 			tooltip: {
-				trigger: 'item',
+				trigger: 'axis',
+				axisPointer: {
+					type: 'shadow',
+				},
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true,
+			},
+			xAxis: {
+				type: 'value',
+				boundaryGap: [0, 0.01],
+			},
+			yAxis: {
+				type: 'category',
+				data: names,
 			},
 			series: [
 				{
-					name: '感兴趣程度',
-					type: 'pie',
-					radius: ['30%', '70%'],
-					avoidLabelOverlap: false,
-					itemStyle: {
-						borderRadius: 10,
-						borderColor: '#fff',
-						borderWidth: 2,
-					},
-					// label: {
-					// 	show: true,
-					// 	position: 'center',
-					// },
-					// emphasis: {
-					// 	label: {
-					// 		show: true,
-					// 		fontSize: '40',
-					// 		fontWeight: 'bold',
-					// 	},
-					// },
-					labelLine: {
-						show: false,
-					},
-					data: [
-						{ name: 'titanic', value: 0.8 },
-						{ name: 'titanic', value: 0.8 },
-						{ name: 'titanic', value: 0.8 },
-					],
+					// name: '2011年',
+					type: 'bar',
+					data: values,
 				},
 			],
 		});
@@ -125,6 +147,7 @@ export default class Index extends Component {
 
 		return (
 			<View className="index page">
+				<AtMessage />
 				<View className="page__header index__header">
 					<View className="header__title">VMRS</View>
 					<AtButton
@@ -149,7 +172,7 @@ export default class Index extends Component {
 					onCancel={this.handleCancel}
 					onConfirm={this.handleConfirm}
 				>
-					<AtModalHeader>推荐理由分析</AtModalHeader>
+					<AtModalHeader>查看推荐度分析</AtModalHeader>
 					<AtModalContent>
 						<View>
 							<View id="index-chart"></View>

@@ -107,33 +107,77 @@ router.get("/getDate", async (ctx, next) => {
 
 //getRecList
 
-router.get("/getRecList", async (ctx, next) => {
-	const req = ctx.request;
-	console.log(ctx, req);
+// global.userId = "vinika";
+// global.movieId = "7064681";
 
+const initData = async (userId, movieId) => {
 	let data = await UserRateController.getData();
 	console.log("get data ok");
-
-	let modal = new RecommendGoodsService(data, "vinika", 4, "7064681");
+	let modal = new RecommendGoodsService(data, userId, 10, movieId);
 	//go
-	modal.start();
-	console.log(modal.result);
+	await modal.start();
 	console.log("modal start ok");
+	console.log("modal: ", modal.resultRank);
+	global.modal = modal;
+	global.modal.resultRank = global.modal.resultRank.slice(0, 50);
+	global.modal.resource = { userId, movieId };
+	// return modal;
+}
 
+initData("vinika", "7064681");
+// console.log("外面rank", result.resultRank);
 
+router.get("/getRecList", async (ctx, next) => {
+	const req = ctx.request;
+	// console.log(ctx, req);
+	console.log("global: ", global.modal);
+	for (let i = 0; i < 50; i++) {
+		let data = await MovieInfoController.detail(global.modal.resultRank[i].movieId);
+		global.modal.resultRank[i].data = data;
+	}
+	// console.log("result: ", global.result.resultRank)
 	ctx.body = {
 		movieId: 1, //根据哪一部推送的
-		recList: modal.resultRank,
+		recList: global.modal.resultRank,
 	};
 })
 
 //getRecDetail
 
 router.post("/getRecDetail", async (ctx, next) => {
-	const req = ctx.request;
-	console.log(req.body.movieId);
+	// const req = ctx.request;
+	// console.log(req.body.movieId);
 
-	await MovieInfoController.detail(ctx);
+	// await MovieInfoController.detail(ctx);
+
+	let movieID = ctx.request.body.movieId;
+	// console.log(movieID)
+	if (movieID) {
+		try {
+			let data = await MovieInfoController.detail(movieID);
+			ctx.response.status = 200;
+			ctx.body = {
+				code: 200,
+				msg: "查询成功",
+				data,
+			};
+		} catch (err) {
+			ctx.response.status = 412;
+			ctx.body = {
+				code: 412,
+				msg: "查询失败",
+			};
+		}
+	} else {
+		ctx.response.status = 416;
+		ctx.body = {
+			code: 416,
+			msg: "ID必须传",
+		};
+	}
+
+
+
 
 	// ctx.body = {
 	// 	movieId: req.body.movieId,

@@ -246,7 +246,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	/**
 	 * 入口
 	 */
-	start() {
+	async start() {
 		// 获取待计算数据
 		this.getInitialData();
 
@@ -255,22 +255,28 @@ const RecommendGoodsService = class RecommendGoodsService {
 		for (let movieId of this.goodsMayPerferList.values()) {
 			const res = this.getUserInterest(movieId);
 			res.simi = [];
-			this.simpleList.forEach((el) => {
+			for (let i = 0; i < this.simpleList.length; i++) {
+				const el = this.simpleList[i];
 				res.simi.push({ movieId: el.movieId, grade: el.grade });
-			})
+				if (i > 10) break;
+			}
+			// this.simpleList.forEach((el) => {
+			// 	res.simi.push({ movieId: el.movieId, grade: el.grade });
+			// })
 			this.resultRank.push(res);
+			// if (this.resultRank.length > 20) break;
 		}
 		// 逆序排序
 		this.resultRank.sort((a, b) => {
 			return b.grade - a.grade;
 		});
 		// 获取最终结果
-		this.result = this.resultRank.reduce((array, obj) => {
-			array.push(obj.movieId);
-			return array;
-		}, []);
+		// this.result = this.resultRank.reduce((array, obj) => {
+		// 	array.push(obj.movieId);
+		// 	return array;
+		// }, []);
 		this.show();
-		return this.result;
+		// return this.result;
 	}
 	/**
 	 * 计算用户对该商品的感兴趣程度

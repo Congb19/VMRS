@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import { AtIcon, AtMessage } from 'taro-ui';
 import './index.scss';
 
 import { getRecDetail } from '../../ajax';
@@ -55,7 +55,9 @@ export default class RecItemCard extends Component {
 					<View className="card__img__infos">
 						<Text className="card__img__infos__rec">
 							<AtIcon value="star" size="30" color="#fff"></AtIcon>{' '}
-							{this.props.data.grade}
+							{this.props.data.grade
+								? (this.props.data.grade * 100).toFixed(0)
+								: 0}
 						</Text>
 						<Text className="card__img__infos__rate">
 							<AtIcon value="analytics" size="30" color="#fff"></AtIcon>{' '}
