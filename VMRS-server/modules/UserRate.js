@@ -56,7 +56,7 @@ class UserRateModel {
     const data = await UserRate.findAll({
       where: {
         [Op.and]: [
-          { id: { [Op.lt]: 3000, } },
+          { id: { [Op.lt]: 2000, } },
           // { rate: { [Op.gt]: 3, } },
           // { id: { [Op.lt]: 200, } },
         ],
@@ -74,6 +74,22 @@ class UserRateModel {
     })
 
     // console.log(res[0], res[1], res[2]);
+    return res;
+  }
+  static async getLike(username) {
+    const data = await UserRate.findAll({
+      where: {
+        username: username
+      }
+    });
+    let res = [];
+
+    data.map((el) => {
+      res.push({
+        userId: el.dataValues.username,
+        movieId: el.dataValues.movieID,
+      })
+    })
     return res;
   }
 }

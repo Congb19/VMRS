@@ -214,6 +214,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 	constructor(data, userId, k, movieId) {
 		this.data = data;
 		this.movieId = movieId;
+		this.movieId2 = movieId;
 		this.userId = userId;
 		// 筛选前k个商品······用于模块一······
 		this.k = k;
@@ -266,6 +267,8 @@ const RecommendGoodsService = class RecommendGoodsService {
 			this.resultRank.push(res);
 			// if (this.resultRank.length > 20) break;
 		}
+
+		// console.log("测试", this.movieId);
 		// 逆序排序
 		this.resultRank.sort((a, b) => {
 			return b.grade - a.grade;
@@ -291,6 +294,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 				grade += obj.grade;
 			}
 		}
+		// console.log("测试", this.movieId2);
 		return { movieId, grade };
 	}
 	/**
@@ -361,6 +365,7 @@ const RecommendGoodsService = class RecommendGoodsService {
 		const goods = [...new Set(goodsArray)];
 		// 得到目标商品列表
 		this.goodsList = goods;
+		// console.log("测试", this.movieId);
 	}
 	/**
 	 * 去掉已买过的商品，得到目标商品数组

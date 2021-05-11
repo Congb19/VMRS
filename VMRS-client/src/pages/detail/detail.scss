@@ -1,0 +1,40 @@
+.detail {
+	.detail__view {
+		position: absolute;
+		top: 90px;
+		width: 750px;
+		.detail__view__img {
+			width: 750px;
+			height: 422px;
+			background-image: url(https://api.ixiaowai.cn/api/api.php);
+			background-size: cover;
+		}
+		.view {
+			padding: 15px;
+			.view__title {
+				font-size: 42px;
+				width: 600px;
+				margin-bottom: 10px;
+			}
+			.view__grade {
+				position: absolute;
+				top: 422px;
+				right: 0px;
+				width: 150px;
+				font-size: 60px;
+				text-align: center;
+				// float: right;
+				.view__grade__icon {
+				}
+			}
+			.view__infos {
+				.view__infos {
+				}
+			}
+		}
+	}
+}
+#detail-chart {
+	width: 700px;
+	height: 700px;
+}

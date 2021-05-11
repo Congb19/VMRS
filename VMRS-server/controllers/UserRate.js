@@ -7,6 +7,10 @@ class UserRateController {
     let data = await UserRateModel.getData();
     return data;
   }
+  static async getLike(username) {
+    let data = await UserRateModel.getLike(username);
+    return data;
+  }
 }
 
 module.exports = UserRateController;

@@ -10,6 +10,8 @@ import {
 	AtModalAction,
 	AtMessage,
 } from 'taro-ui';
+import { connect } from 'react-redux';
+import { saveData } from '../../ajax/dataActions';
 
 import * as echarts from 'echarts';
 
@@ -20,7 +22,21 @@ import RecItemCard from '../../components/rec-item-card/index';
 import { getRecList, getRecDetail } from '../../ajax';
 import { get } from 'lodash';
 
-export default class Index extends Component {
+@connect(
+	({ data }) => ({
+		data,
+	}),
+	(dispatch) => ({
+		saveData(data) {
+			console.log('测试2', data);
+			dispatch(saveData(data));
+		},
+	})
+)
+class Index extends Component {
+	componentWillReceiveProps(nextProps) {
+		console.log(this.props, nextProps);
+	}
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -33,36 +49,23 @@ export default class Index extends Component {
 		console.log('onready index');
 		let res;
 
-		// (async () => {
 		res = await getRecList();
 		console.log('rqRecList', res);
-		// })();
 
 		this.setState({
 			recList: res.recList,
 		});
-		// this.render();
+
+		console.log('测试', this.state.recList);
+		// this.props.saveData(res.recList);
+
+		//draw chart
 		this.setState({
 			chart: echarts.init(document.getElementById('index-chart')),
 		});
 
-		console.log('测试', this.state);
-
 		let names = [],
 			values = [];
-		// const getDetail = async () => {
-		// 	for (let i = 0; i < 10; ++i) {
-		// 		console.log('in for', this.state.recList[i].movieId);
-
-		// 		let res = await getRecDetail.bind(this, this.state.recList[i].movieId);
-		// 		names[i] = res.name;
-		// 		values[i] = (this.state.recList[i].grade * 100).toFixed(0);
-		// 	}
-
-		// 	console.log('测试2', this.state);
-		// };
-
-		// await getDetail();
 		for (let i = 0; i < 10; i++) {
 			names[i] =
 				this.state.recList[i].data.name.length > 4
@@ -75,21 +78,32 @@ export default class Index extends Component {
 		this.drawChart(names, values);
 	}
 
-	// componentDidShow() {}
-
-	// componentDidHide() {}
-
 	onReady() {
 		console.log('onready');
 	}
 	toShowReason = () => {
 		this.setState({ showReason: true });
 	};
-	toDetail = (id) => {
+	toDetail = (id, grade) => {
 		//todo: navigate to
 		console.log(id);
+		//把该电影的数据存入redux
+		for (let i = 0; i < this.state.recList.length; i++) {
+			if (this.state.recList[i].movieId == id) {
+				this.props.saveData(this.state.recList[i]);
+				break;
+			}
+		}
 		Taro.navigateTo({
-			url: `/pages/detail/detail?id=${id}`,
+			url: `/pages/detail/detail?id=${id}&grade=${grade}`,
+		});
+	};
+	refresh = async () => {
+		let res = await getRecList();
+		console.log('rqRecList', res);
+
+		this.setState({
+			recList: res.recList,
 		});
 	};
 	drawChart = async (names, values) => {
@@ -137,7 +151,10 @@ export default class Index extends Component {
 			shownList = this.state.recList.slice(0, 10);
 			cardList = shownList.map((el, index) => {
 				return (
-					<View key={el.movieId} onClick={this.toDetail.bind(this, el.movieId)}>
+					<View
+						key={el.movieId}
+						onClick={this.toDetail.bind(this, el.movieId, el.grade)}
+					>
 						<RecItemCard data={el}></RecItemCard>
 					</View>
 				);
@@ -163,7 +180,11 @@ export default class Index extends Component {
 				{/* <View className="page__refresh">
 					<AtIcon value="reload" size="60" color="#F00"></AtIcon>
 				</View> */}
-				<AtButton className="page__refresh" type="primary">
+				<AtButton
+					className="page__refresh"
+					type="primary"
+					onClick={this.refresh}
+				>
 					<AtIcon value="reload" size="80" color="#FFF"></AtIcon>
 				</AtButton>
 				<AtModal
@@ -183,3 +204,4 @@ export default class Index extends Component {
 		);
 	}
 }
+export default Index;

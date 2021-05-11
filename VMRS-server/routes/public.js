@@ -110,6 +110,16 @@ router.get("/getDate", async (ctx, next) => {
 // global.userId = "vinika";
 // global.movieId = "7064681";
 
+const start = async (userId) => {
+	let likes = await UserRateController.getLike(userId);
+	global.modal = [];
+	//对我like列表里的每一个电影进行计算
+	console.log(likes);
+	for (let i = 0; i < 1; i++) {
+		initData(userId, likes[i].movieId);
+	}
+}
+
 const initData = async (userId, movieId) => {
 	let data = await UserRateController.getData();
 	console.log("get data ok");
@@ -117,28 +127,31 @@ const initData = async (userId, movieId) => {
 	//go
 	await modal.start();
 	console.log("modal start ok");
+	modal.resultRank = modal.resultRank.slice(0, 50);
 	console.log("modal: ", modal.resultRank);
-	global.modal = modal;
-	global.modal.resultRank = global.modal.resultRank.slice(0, 50);
-	global.modal.resource = { userId, movieId };
+	//to global
+	global.modal.push({ userId, movieId, modal });
 	// return modal;
 }
 
-initData("vinika", "7064681");
-// console.log("外面rank", result.resultRank);
+// initData("vinika", "7064681");
+start("vinika");
 
 router.get("/getRecList", async (ctx, next) => {
 	const req = ctx.request;
 	// console.log(ctx, req);
 	console.log("global: ", global.modal);
-	for (let i = 0; i < 50; i++) {
-		let data = await MovieInfoController.detail(global.modal.resultRank[i].movieId);
-		global.modal.resultRank[i].data = data;
+	for (let j = 0; j < 1; j++) {
+		for (let i = 0; i < 10; i++) {
+			let data = await MovieInfoController.detail(global.modal[j].modal.resultRank[i].movieId);
+			global.modal[j].modal.resultRank[i].data = data;
+		}
 	}
+	let rand = Math.floor(1 * Math.random());
 	// console.log("result: ", global.result.resultRank)
 	ctx.body = {
-		movieId: 1, //根据哪一部推送的
-		recList: global.modal.resultRank,
+		movieId: global.modal[rand].movieId, //根据哪一部推送的
+		recList: global.modal[rand].modal.resultRank,
 	};
 })
 
