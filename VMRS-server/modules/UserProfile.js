@@ -4,7 +4,11 @@ const moment = require("moment");
 const sequelize = db.sequelize;
 // const UserProfile = Sequelize.import("../schemas/UserProfile");
 const { User, UserModel } = require("./User");
-class UserProfile extends Model {}
+const { MovieInfoModel } = require("./MovieInfo");
+const { UserRateModel } = require("./UserRate");
+const { use } = require('../routes');
+
+class UserProfile extends Model { }
 UserProfile.init(
 	{
 		userid: {
@@ -47,7 +51,34 @@ UserProfile.init(
 	}
 );
 // UserProfile.belongsTo(User);
-class UserProfileModel {}
+class UserProfileModel {
+	static async getUserTags(username) {
+		//获取用户喜欢看的电影的tags
+		let movies = await UserRateModel.getLike(username);
+		console.log("测试 是 ", movies)
+		let tags = [];
+		for (let i = 0; i < movies.length; i++) {
+			let info = await MovieInfoModel.getMovieInfoDetail(movies[i].movieId);
+			// console.log(tag.tag);
+			let tag = info.tag.slice(0, info.tag.length - 1).split(",");
+			tags.push(...tag);
+		}
+		// tags.sort();
+		let resObj = {};
+		let res = [];
+		for (let i = 0; i < tags.length; i++) {
+			if (!resObj[tags[i]]) resObj[tags[i]] = 1;
+			else resObj[tags[i]]++;
+		}
+		Object.keys(resObj).forEach((el) => {
+			let tmp = { name: el, value: resObj[el] };
+			res.push(tmp);
+		})
+		res.sort((a, b) => b.value - a.value);
+		console.log("=== getUserTags");
+		return res;
+	}
+}
 
 module.exports = {
 	UserProfile,

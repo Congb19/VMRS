@@ -22,5 +22,15 @@ router.post("/signin", async (ctx, next) => {
 	console.log("登录中，", req);
 	await UserController.signin(ctx);
 });
+router.post("/getUserTags", async (ctx, next) => {
+	const req = ctx.request.body;
+	let username = ctx.request.body.userId;
+	// console.log("登录中，", req);
+	let res = await UserProfileController.getUserTags(username);
+	ctx.body = {
+		username,
+		res
+	}
+});
 
 module.exports = router;

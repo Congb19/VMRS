@@ -59,3 +59,14 @@ export const getRecDetail = async (params) => {
 	});
 	return res;
 };
+
+export const getUserTags = async (params) => {
+	const res = await request({
+		url: `/users/getUserTags`,
+		method: `POST`,
+		data: {
+			userId: params.userId
+		}
+	});
+	return res;
+};

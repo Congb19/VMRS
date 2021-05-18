@@ -23,17 +23,17 @@ export default class RecItemCard extends Component {
 	async componentDidMount() {
 		//todo: 请求详情
 		let res;
-		console.log('props: ', this.props);
+		console.log('测试props ', this.props.data);
 
 		// (async () => {
-		res = await getRecDetail({ movieId: this.props.data.movieId });
+		// res = await getRecDetail({ movieId: this.props.data.movieId });
 		// res = await getRecDetail({ movieId: 1292223 });
-		console.log('rqRecDetail', res.data);
+		// console.log('rqRecDetail', res.data);
 		// })();
 
-		this.setState({
-			data: res.data,
-		});
+		// this.setState({
+		// 	data: res.data,
+		// });
 	}
 
 	componentWillUnmount() {}
@@ -61,19 +61,19 @@ export default class RecItemCard extends Component {
 						</Text>
 						<Text className="card__img__infos__rate">
 							<AtIcon value="analytics" size="30" color="#fff"></AtIcon>{' '}
-							{this.state.data.rate}
+							{this.props.data.data.rate}
 						</Text>
 						<Text className="card__img__infos__time">
-							{this.state.data.director}
+							{this.props.data.data.director}
 						</Text>
 					</View>
 				</View>
 				<View className="card__title">
-					<Text>{this.state.data.name}</Text>
+					<Text>{this.props.data.data.name}</Text>
 					{/* <br /> */}
 					<Text className="card__title__cat">
 						{/* {this.state.data.genre.join('，')} */}
-						{this.state.data.genre}
+						{this.props.data.data.genre}
 					</Text>
 				</View>
 			</View>

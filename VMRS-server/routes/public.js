@@ -142,7 +142,7 @@ router.get("/getRecList", async (ctx, next) => {
 	// console.log(ctx, req);
 	console.log("global: ", global.modal);
 	for (let j = 0; j < 1; j++) {
-		for (let i = 0; i < 10; i++) {
+		for (let i = 0; i < 50; i++) {
 			let data = await MovieInfoController.detail(global.modal[j].modal.resultRank[i].movieId);
 			global.modal[j].modal.resultRank[i].data = data;
 		}

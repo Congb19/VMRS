@@ -4,8 +4,10 @@ import { View, Text } from '@tarojs/components';
 import { AtForm, AtInput, AtButton, AtTag, AtMessage } from 'taro-ui';
 import { connect } from 'react-redux';
 
-import { getDate } from '../../ajax';
+import { getDate, getUserTags } from '../../ajax';
 import { signin, signup } from '../../ajax/authActions';
+
+import * as echarts from 'echarts';
 
 import './me.scss';
 
@@ -35,13 +37,65 @@ class Me extends Component {
 		};
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		console.log('onready me');
-		(async () => {
-			let res = await getDate();
-			console.log('rqDate', res);
-		})();
+		// (async () => {
+		let res = await getDate();
+		console.log('rqDate', res);
+		// })();
+		const { isAuthenticated, user } = this.props.auth;
+		if (isAuthenticated) {
+			let res = await getUserTags({ userId: user.username });
+			let tags = res.res;
+			//draw chart
+			this.setState({
+				chart: echarts.init(document.getElementById('me-chart')),
+			});
+			let maxes = [],
+				names = [],
+				values = [];
+			for (let i = 0; i < 6; i++) {
+				names.push(tags[i].name);
+				values.push(tags[i].value);
+				maxes.push({ name: tags[i].name, max: tags[0].value });
+			}
+			this.drawChart(maxes, names, values);
+		}
 	}
+	drawChart = async (maxes, names, values) => {
+		this.state.chart.setOption({
+			title: {
+				text: '我的观影标签~',
+			},
+			legend: {
+				data: ['我的标签'],
+			},
+			radar: {
+				// shape: 'circle',
+				// indicator: [
+				// 	{ name: '销售（Sales）', max: 6500 },
+				// 	{ name: '管理（Administration）', max: 16000 },
+				// 	{ name: '信息技术（Information Technology）', max: 30000 },
+				// 	{ name: '客服（Customer Support）', max: 38000 },
+				// 	{ name: '研发（Development）', max: 52000 },
+				// 	{ name: '市场（Marketing）', max: 25000 },
+				// ],
+				indicator: maxes,
+			},
+			series: [
+				{
+					name: '预算 vs 开销（Budget vs spending）',
+					type: 'radar',
+					data: [
+						{
+							value: values,
+							name: '喜爱次数',
+						},
+					],
+				},
+			],
+		});
+	};
 	handleUsernameChange(username) {
 		this.setState({
 			username,
@@ -104,6 +158,8 @@ class Me extends Component {
 						<Text className="me-profile__data--following">{1} 关注</Text>
 						<Text className="me-profile__data--likes">{1} 获赞</Text>
 					</View>
+
+					<View id="me-chart" className="view__chart"></View>
 					<AtButton onClick={this.onReady}>退出登录</AtButton>
 				</View>
 			</View>

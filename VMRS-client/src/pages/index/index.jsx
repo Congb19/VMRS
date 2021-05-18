@@ -42,6 +42,7 @@ class Index extends Component {
 		this.state = {
 			showReason: false,
 			recList: [],
+			shownList: [],
 		};
 	}
 	async componentDidMount() {
@@ -58,6 +59,8 @@ class Index extends Component {
 
 		console.log('测试', this.state.recList);
 		// this.props.saveData(res.recList);
+
+		this.refresh();
 
 		//draw chart
 		this.setState({
@@ -99,12 +102,13 @@ class Index extends Component {
 		});
 	};
 	refresh = async () => {
-		let res = await getRecList();
-		console.log('rqRecList', res);
-
-		this.setState({
-			recList: res.recList,
-		});
+		// await setTimeout(() => {}, 500);
+		let shownList = [];
+		for (let i = 0; i < 10 && i < this.state.recList.length / 5; i++) {
+			let rand = Math.floor(5 * Math.random());
+			shownList.push(this.state.recList[5 * i + rand]);
+		}
+		this.setState({ shownList });
 	};
 	drawChart = async (names, values) => {
 		// this.state.recList;
@@ -143,12 +147,11 @@ class Index extends Component {
 		});
 	};
 	render() {
-		// let tmp = 1;
-		// let cardList = <RecItemCard data={tmp}></RecItemCard>;
 		let cardList,
 			shownList = [];
 		if (this.state.recList && this.state.recList.length > 0) {
-			shownList = this.state.recList.slice(0, 10);
+			// shownList = this.state.recList.slice(0, 10);
+			shownList = this.state.shownList;
 			cardList = shownList.map((el, index) => {
 				return (
 					<View
@@ -160,7 +163,7 @@ class Index extends Component {
 				);
 			});
 		}
-		console.log(this.state.recList, cardList);
+		console.log('shownlist', this.state.shownList);
 
 		return (
 			<View className="index page">
