@@ -20,6 +20,14 @@
 	right: 20px;
 	width: 300px;
 }
+.btn--toLogin {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 300px;
+	transform: translateY(-50%);
+	transform: translateX(-50%);
+}
 
 #index-chart {
 	height: 500px;

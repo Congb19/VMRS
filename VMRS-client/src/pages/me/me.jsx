@@ -110,26 +110,27 @@ class Me extends Component {
 	}
 	handleReset() {}
 
-	signIn = (e) => {
+	signIn = async (e) => {
 		console.log('登录ing');
-		(async () => {
-			try {
-				let res = await this.props.signin(this.state);
-				// let res = await signin(this.state);
-				console.log('res: ', res);
-				if (res?.code == 200) {
-					this.setState({
-						isLoggedIn: true,
-					});
-					Taro.atMessage({
-						message: '登录成功',
-						type: 'success',
-					});
-				}
-			} catch (err) {
-				console.log('errrrrr', err);
+		// (async () => {
+		try {
+			let res = await this.props.signin(this.state);
+			// let res = await signin(this.state);
+			console.log('res: ', res);
+			if (res?.code == 200) {
+				this.setState({
+					isLoggedIn: true,
+				});
+				Taro.atMessage({
+					message: '登录成功',
+					type: 'success',
+				});
 			}
-		})();
+		} catch (err) {
+			console.log('errrrrr', err);
+		}
+		// })();
+		//刷新
 	};
 	signUp() {
 		(async () => {
@@ -137,7 +138,19 @@ class Me extends Component {
 			console.log('注册ing', res);
 		})();
 	}
-	signOut() {}
+	signOut() {
+		Taro.removeStorage({
+			key: 'token',
+			success: function (res) {
+				console.log('退出成功');
+				// Taro.reLaunch({
+				// 	url: '/pages/index/index',
+				// });
+				// Taro.startPullDownRefresh();
+			},
+		});
+		//刷新
+	}
 
 	render() {
 		const { isAuthenticated, user } = this.props.auth;
@@ -160,7 +173,7 @@ class Me extends Component {
 					</View>
 
 					<View id="me-chart" className="view__chart"></View>
-					<AtButton onClick={this.onReady}>退出登录</AtButton>
+					<AtButton onClick={this.signOut}>退出登录</AtButton>
 				</View>
 			</View>
 		);
