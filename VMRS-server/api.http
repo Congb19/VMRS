@@ -1,18 +1,25 @@
 
-# test
-GET http://localhost:8002/api/public/getRecList
+# # test
+# GET http://localhost:8002/api/public/getRecList
 
-GET http://localhost:8002/api/public/getDate
+# GET http://localhost:8002/api/public/getDate
 
-GET http://localhost:8002/api/test2
+# GET http://localhost:8002/api/test2
 
-# GET http://www.congb19.top/vmrs/api/test2
+# # GET http://www.congb19.top/vmrs/api/test2
 
-# 注册
-POST http://www.congb19.top/vmrs/api/users/signup
+# # 注册
+# POST http://www.congb19.top/vmrs/api/users/signup
+# content-type: application/json;charset=UTF-8
+
+# {
+#   "username": "qwe",
+#   "password": "asd"
+# }
+
+POST http://localhost:8002/api/users/getUserTags
 content-type: application/json;charset=UTF-8
 
 {
-  "username": "qwe",
-  "password": "asd"
+  "userId": "vinika"
 }
