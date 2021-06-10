@@ -71,7 +71,7 @@ class Detail extends Component {
 				res.data.name.length < 8
 					? res.data.name
 					: res.data.name.slice(0, 6) + '...';
-			values[i] = simi[i].grade;
+			values[i] = simi[i].similarity / 1;
 		}
 		names.reverse();
 		values.reverse();

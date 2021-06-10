@@ -38,7 +38,7 @@ export const signup = async (data) => {
 export const signin = async (data) => {
 	return async (dispatch) => {
 		const res = await request({
-			url: `/users/signin`,
+			url: `/public/signin`,
 			data,
 			method: 'POST',
 		});

@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import jwtDecode from 'jwt-decode';
 
-const baseUrl = 'http://192.168.123.49:8002/api';
+const baseUrl = 'http://192.168.148.215:8002/api';
 
 Taro.addInterceptor(Taro.interceptors.logInterceptor);
 

@@ -2,8 +2,11 @@ const router = require("koa-router")();
 
 router.prefix("/api/public");
 
-const { RecommendGoodsService } = require("../core/index");
+const fs = require('fs');
 
+const { RecommendMoviesService } = require("../core/index");
+
+const UserController = require("../controllers/User");
 const MovieInfoController = require("../controllers/MovieInfo");
 const UserRateController = require("../controllers/UserRate");
 
@@ -113,45 +116,79 @@ router.get("/getDate", async (ctx, next) => {
 const start = async (userId) => {
 	let likes = await UserRateController.getLike(userId);
 	global.modal = [];
-	//对我like列表里的每一个电影进行计算
-	console.log(likes);
+	// console.log(likes);
 	for (let i = 0; i < 1; i++) {
 		initData(userId, likes[i].movieId);
+		// initData(userId, "24752302");
 	}
 }
+
 
 const initData = async (userId, movieId) => {
 	let data = await UserRateController.getData();
 	console.log("get data ok");
-	let modal = new RecommendGoodsService(data, userId, 10, movieId);
+	let modal = new RecommendMoviesService(data, userId, 10, movieId);
 	//go
 	await modal.start();
 	console.log("modal start ok");
 	modal.resultRank = modal.resultRank.slice(0, 50);
 	console.log("modal: ", modal.resultRank);
+
+	// for (let j = 0; j < 1; j++) {
+	for (let i = 0; i < 50; i++) {
+		let data = await MovieInfoController.detail(modal.resultRank[i].movieId);
+		modal.resultRank[i].data = data;
+	}
+	// }
+
+	const jsondata = JSON.stringify(modal.resultRank);
+	fs.writeFile(`../4698529.json`, jsondata, (err) => {
+		if (err) {
+			throw err;
+		}
+		console.log("JSON data is saved.");
+	})
 	//to global
-	global.modal.push({ userId, movieId, modal });
+
+	// global.modal.push({ userId, movieId, modal });
 	// return modal;
 }
 
 // initData("vinika", "7064681");
-start("vinika");
+start("4698529");
+
+
+global.start = start;
+
+router.post("/signin", async (ctx, next) => {
+	const req = ctx.request.body;
+	console.log("登录中，", req);
+	global.user = req.username;
+
+	const user = global.user;
+	await UserController.signin(ctx);
+});
 
 router.get("/getRecList", async (ctx, next) => {
 	const req = ctx.request;
-	// console.log(ctx, req);
-	console.log("global: ", global.modal);
-	for (let j = 0; j < 1; j++) {
-		for (let i = 0; i < 50; i++) {
-			let data = await MovieInfoController.detail(global.modal[j].modal.resultRank[i].movieId);
-			global.modal[j].modal.resultRank[i].data = data;
-		}
+
+	const readfile = () => {
+		return new Promise((resolve) => {
+			fs.readFile(`../${user}.json`, 'utf-8', (err, data) => {
+				if (err) {
+					throw err;
+				}
+				const modal = JSON.parse(data.toString());
+				global.modal = modal;
+				resolve(modal);
+			});
+		})
 	}
-	let rand = Math.floor(1 * Math.random());
-	// console.log("result: ", global.result.resultRank)
+
+	let result = await readfile();
+	console.log("结果：", global.modal);
 	ctx.body = {
-		movieId: global.modal[rand].movieId, //根据哪一部推送的
-		recList: global.modal[rand].modal.resultRank,
+		recList: result
 	};
 })
 
