@@ -142,12 +142,12 @@ const initData = async (userId, movieId) => {
 	// }
 
 	const jsondata = JSON.stringify(modal.resultRank);
-	fs.writeFile(`../4698529.json`, jsondata, (err) => {
-		if (err) {
-			throw err;
-		}
-		console.log("JSON data is saved.");
-	})
+	// fs.writeFile(`../4698529.json`, jsondata, (err) => {
+	// 	if (err) {
+	// 		throw err;
+	// 	}
+	// 	console.log("JSON data is saved.");
+	// })
 	//to global
 
 	// global.modal.push({ userId, movieId, modal });
@@ -155,7 +155,7 @@ const initData = async (userId, movieId) => {
 }
 
 // initData("vinika", "7064681");
-start("4698529");
+// start("4698529");
 
 
 global.start = start;

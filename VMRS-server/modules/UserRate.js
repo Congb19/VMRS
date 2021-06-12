@@ -56,7 +56,7 @@ class UserRateModel {
     const data = await UserRate.findAll({
       where: {
         [Op.and]: [
-          { id: { [Op.lt]: 3000, } },
+          { id: { [Op.lt]: 1000, } },
           // { rate: { [Op.gt]: 3, } },
         ],
       }
